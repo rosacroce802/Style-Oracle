@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style Oracle · ออราเคิลแต่งตัว</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Mali:wght@300;400;500;600&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2c1d44;
+    --ink-soft:#5b4a73;
+    --lav:#b79ced;
+    --lav-deep:#8a63d6;
+    --blush:#f7a8c4;
+    --peach:#ffc6a0;
+    --mint:#9fe6c7;
+    --sky:#9cd6f2;
+    --gold:#f3c969;
+    --paper:#fbf7ff;
+    --card:rgba(255,255,255,0.62);
+    --card-line:rgba(138,99,214,0.18);
+    --shadow:0 18px 50px -22px rgba(76,40,120,0.45);
+    --radius:22px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Mali','Kanit',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.7;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* text never gets clipped */
+  h1,h2,h3,p,span,label,button,div,li{overflow-wrap:break-word;word-break:normal;}
+
+  /* ---------- animated aurora background ---------- */
+  .aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;}
+  .aurora::before,.aurora::after{
+    content:"";position:absolute;width:75vmax;height:75vmax;border-radius:50%;
+    filter:blur(70px);opacity:.55;mix-blend-mode:multiply;
+  }
+  .aurora::before{
+    background:radial-gradient(circle at 30% 30%,var(--blush),transparent 60%),
+               radial-gradient(circle at 70% 70%,var(--lav),transparent 60%);
+    top:-20vmax;left:-15vmax;animation:drift1 26s ease-in-out infinite alternate;
+  }
+  .aurora::after{
+    background:radial-gradient(circle at 40% 60%,var(--sky),transparent 60%),
+               radial-gradient(circle at 60% 30%,var(--peach),transparent 60%);
+    bottom:-25vmax;right:-15vmax;animation:drift2 30s ease-in-out infinite alternate;
+  }
+  @keyframes drift1{to{transform:translate(8vmax,6vmax) rotate(40deg) scale(1.1);}}
+  @keyframes drift2{to{transform:translate(-7vmax,-5vmax) rotate(-30deg) scale(1.15);}}
+
+  .stars{position:fixed;inset:0;z-index:-1;pointer-events:none;}
+  .star{position:absolute;color:var(--gold);opacity:0;animation:twinkle 4s ease-in-out infinite;font-size:14px;}
+  @keyframes twinkle{0%,100%{opacity:0;transform:scale(.4);}50%{opacity:.9;transform:scale(1);}}
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:1120px;margin:0 auto;padding:0 18px;}
+  header.top{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+    background:rgba(251,247,255,0.7);border-bottom:1px solid var(--card-line);}
+  .top-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Chonburi',serif;font-size:1.25rem;color:var(--lav-deep);}
+  .brand .orb-mini{width:26px;height:26px;border-radius:50%;
+    background:conic-gradient(from 0deg,var(--blush),var(--lav),var(--sky),var(--peach),var(--blush));
+    box-shadow:0 0 14px rgba(183,156,237,.8);}
+  .lang{display:flex;border:1px solid var(--card-line);border-radius:999px;overflow:hidden;background:rgba(255,255,255,.6);}
+  .lang button{border:0;background:transparent;padding:7px 16px;font-family:'Kanit',sans-serif;font-weight:500;
+    color:var(--ink-soft);cursor:pointer;font-size:.85rem;transition:.2s;}
+  .lang button.active{background:linear-gradient(135deg,var(--lav),var(--blush));color:#fff;}
+
+  /* ---------- hero ---------- */
+  .hero{text-align:center;padding:56px 0 26px;position:relative;}
+  .orb{width:130px;height:130px;margin:0 auto 22px;border-radius:50%;position:relative;
+    background:conic-gradient(from 0deg,var(--blush),var(--peach),var(--gold),var(--mint),var(--sky),var(--lav),var(--blush));
+    box-shadow:0 0 60px rgba(183,156,237,.7),inset 0 0 30px rgba(255,255,255,.6);
+    animation:spin 18s linear infinite;}
+  .orb::after{content:"✦";position:absolute;inset:0;display:grid;place-items:center;font-size:2.4rem;color:#fff;text-shadow:0 2px 8px rgba(76,40,120,.4);animation:spin 18s linear infinite reverse;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .hero h1{font-family:'Chonburi',serif;font-weight:400;font-size:clamp(2rem,6vw,3.4rem);margin:0 0 10px;
+    background:linear-gradient(110deg,var(--lav-deep),var(--blush),var(--peach));
+    -webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.25;}
+  .hero p.sub{font-size:clamp(1rem,2.6vw,1.18rem);color:var(--ink-soft);max-width:620px;margin:0 auto;}
+  .hero .hint{margin-top:14px;font-size:.92rem;color:var(--lav-deep);font-family:'Kanit',sans-serif;}
+
+  /* ---------- module cards ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin:30px 0;}
+  .module{background:var(--card);border:1px solid var(--card-line);border-radius:var(--radius);
+    padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(10px);}
+  .module h3{font-family:'Kanit',sans-serif;font-weight:600;font-size:1.12rem;margin:0 0 4px;display:flex;align-items:center;gap:9px;}
+  .module h3 .ico{font-size:1.3rem;}
+  .module .opt-note{font-size:.8rem;color:var(--ink-soft);margin:0 0 14px;font-family:'Kanit',sans-serif;opacity:.8;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{border:1px solid var(--card-line);background:rgba(255,255,255,.55);border-radius:999px;
+    padding:8px 14px;font-size:.9rem;cursor:pointer;transition:.18s;font-family:'Mali',sans-serif;
+    color:var(--ink);user-select:none;line-height:1.4;}
+  .chip:hover{transform:translateY(-2px);border-color:var(--lav);}
+  .chip.sel{background:linear-gradient(135deg,var(--lav),var(--blush));color:#fff;border-color:transparent;
+    box-shadow:0 8px 20px -8px rgba(138,99,214,.7);}
+
+  .field{display:flex;flex-direction:column;gap:8px;}
+  label.lbl{font-size:.86rem;color:var(--ink-soft);font-family:'Kanit',sans-serif;}
+  input[type=text],input[type=date],select{
+    width:100%;padding:11px 14px;border-radius:14px;border:1px solid var(--card-line);
+    background:rgba(255,255,255,.7);font-family:'Mali',sans-serif;font-size:.95rem;color:var(--ink);}
+  input:focus,select:focus{outline:2px solid var(--lav);outline-offset:1px;}
+
+  /* photo uploader */
+  .drop{border:1.5px dashed var(--lav);border-radius:16px;padding:18px;text-align:center;
+    background:rgba(255,255,255,.4);cursor:pointer;transition:.2s;font-family:'Kanit',sans-serif;font-size:.9rem;color:var(--lav-deep);}
+  .drop:hover{background:rgba(183,156,237,.12);}
+  .pc-result{margin-top:14px;display:none;align-items:center;gap:14px;flex-wrap:wrap;}
+  .pc-swatch{width:54px;height:54px;border-radius:14px;border:2px solid #fff;box-shadow:var(--shadow);flex:0 0 auto;}
+  .pc-text{font-size:.9rem;flex:1;min-width:140px;}
+  .pc-text b{color:var(--lav-deep);}
+
+  .swatch-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+  .sw{width:30px;height:30px;border-radius:9px;border:2px solid #fff;box-shadow:0 4px 10px -4px rgba(0,0,0,.25);}
+
+  /* lucky color preview */
+  .luck-prev{margin-top:12px;display:none;align-items:center;gap:12px;}
+  .luck-dot{width:40px;height:40px;border-radius:50%;border:2px solid #fff;box-shadow:var(--shadow);}
+  .luck-prev span{font-size:.92rem;}
+
+  /* angel card */
+  .angel-card{margin-top:6px;background:linear-gradient(160deg,rgba(243,201,105,.22),rgba(183,156,237,.18));
+    border:1px solid rgba(243,201,105,.4);border-radius:16px;padding:16px;text-align:center;}
+  .angel-card .ang-emoji{font-size:2.2rem;}
+  .angel-card .ang-name{font-family:'Chonburi',serif;font-size:1.2rem;color:var(--lav-deep);margin:4px 0;}
+  .angel-card .ang-msg{font-size:.92rem;color:var(--ink-soft);}
+  .mini-btn{margin-top:10px;border:1px solid var(--lav);background:rgba(255,255,255,.6);color:var(--lav-deep);
+    border-radius:999px;padding:6px 14px;font-family:'Kanit',sans-serif;font-size:.82rem;cursor:pointer;transition:.2s;}
+  .mini-btn:hover{background:var(--lav);color:#fff;}
+
+  /* cast button */
+  .cast-wrap{text-align:center;margin:14px 0 6px;}
+  .cast{border:0;border-radius:999px;padding:16px 40px;font-family:'Kanit',sans-serif;font-weight:600;
+    font-size:1.12rem;color:#fff;cursor:pointer;
+    background:linear-gradient(120deg,var(--lav-deep),var(--blush),var(--peach));
+    background-size:200% 200%;box-shadow:0 16px 40px -14px rgba(138,99,214,.8);
+    transition:transform .15s;animation:shimmer 6s ease infinite;}
+  .cast:hover{transform:translateY(-3px) scale(1.02);}
+  @keyframes shimmer{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+
+  /* ---------- result ---------- */
+  #result{margin:10px 0 30px;display:none;animation:rise .7s cubic-bezier(.2,.8,.2,1);}
+  @keyframes rise{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
+  .verdict{background:var(--card);border:1px solid var(--card-line);border-radius:26px;padding:28px 24px;
+    box-shadow:var(--shadow);backdrop-filter:blur(10px);text-align:center;position:relative;overflow:hidden;}
+  .verdict::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(circle at 20% 0%,rgba(247,168,196,.25),transparent 50%),
+    radial-gradient(circle at 90% 100%,rgba(156,214,242,.25),transparent 50%);z-index:0;}
+  .verdict>*{position:relative;z-index:1;}
+  .eyebrow{font-family:'Kanit',sans-serif;letter-spacing:3px;font-size:.72rem;text-transform:uppercase;color:var(--lav-deep);}
+  .verdict h2{font-family:'Chonburi',serif;font-weight:400;font-size:clamp(1.5rem,5vw,2.3rem);margin:6px 0 4px;
+    background:linear-gradient(110deg,var(--lav-deep),var(--blush));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .verdict .persona{font-size:1.02rem;color:var(--ink);max-width:640px;margin:8px auto 0;}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0 4px;}
+  .tag{background:rgba(255,255,255,.7);border:1px solid var(--card-line);border-radius:999px;padding:6px 14px;font-size:.84rem;}
+
+  .palette-show{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0;}
+  .palette-show .sw{width:42px;height:42px;}
+
+  .looks{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:22px;}
+  .look{border-radius:20px;overflow:hidden;background:#fff;box-shadow:var(--shadow);border:1px solid var(--card-line);
+    display:flex;flex-direction:column;animation:rise .6s both;}
+  .look .canvas{height:170px;position:relative;display:grid;place-items:center;}
+  .look .canvas .figure{font-size:3.4rem;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25));}
+  .look .canvas .num{position:absolute;top:10px;left:12px;font-family:'Chonburi',serif;font-size:1rem;color:#fff;
+    text-shadow:0 2px 6px rgba(0,0,0,.35);background:rgba(0,0,0,.18);border-radius:999px;padding:1px 11px;}
+  .look .body{padding:16px;flex:1;display:flex;flex-direction:column;gap:8px;}
+  .look .body h4{margin:0;font-family:'Kanit',sans-serif;font-weight:600;font-size:1.05rem;}
+  .look .body p{margin:0;font-size:.9rem;color:var(--ink-soft);flex:1;}
+  .pin-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;
+    background:linear-gradient(135deg,#e60023,#ff5a6e);color:#fff;border-radius:999px;padding:9px 14px;
+    font-family:'Kanit',sans-serif;font-size:.82rem;font-weight:500;transition:.2s;}
+  .pin-btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(230,0,35,.7);}
+
+  .blessing{margin-top:24px;background:linear-gradient(160deg,rgba(243,201,105,.2),rgba(247,168,196,.16));
+    border:1px solid rgba(243,201,105,.45);border-radius:20px;padding:24px;text-align:center;}
+  .blessing .b-ico{font-size:1.8rem;}
+  .blessing p{font-family:'Mali',sans-serif;font-size:1.06rem;margin:8px auto 0;max-width:620px;color:var(--ink);}
+
+  /* ---------- support ---------- */
+  .support{background:linear-gradient(150deg,rgba(183,156,237,.18),rgba(156,214,242,.16));
+    border:1px solid var(--card-line);border-radius:26px;padding:30px 24px;text-align:center;margin:18px 0 40px;
+    box-shadow:var(--shadow);backdrop-filter:blur(8px);}
+  .support h2{font-family:'Chonburi',serif;font-weight:400;font-size:clamp(1.4rem,4.5vw,2rem);margin:0 0 8px;color:var(--lav-deep);}
+  .support p.msg{font-size:1rem;color:var(--ink-soft);max-width:560px;margin:0 auto 18px;}
+  .bank{display:inline-flex;flex-direction:column;gap:6px;align-items:center;background:rgba(255,255,255,.75);
+    border:1px solid var(--card-line);border-radius:18px;padding:18px 26px;}
+  .bank .who{font-family:'Kanit',sans-serif;font-weight:500;}
+  .bank .acct{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .bank .acct .no{font-family:'Kanit',sans-serif;font-size:1.5rem;font-weight:600;letter-spacing:2px;color:var(--lav-deep);}
+  .bank .label{font-size:.8rem;color:var(--ink-soft);}
+  .copy-btn{border:0;background:linear-gradient(135deg,var(--lav),var(--blush));color:#fff;border-radius:999px;
+    padding:8px 18px;font-family:'Kanit',sans-serif;font-size:.85rem;cursor:pointer;transition:.2s;}
+  .copy-btn:hover{transform:translateY(-2px);}
+
+  footer{text-align:center;padding:24px 18px 40px;color:var(--ink-soft);font-size:.82rem;font-family:'Kanit',sans-serif;}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+<div class="stars" id="stars"></div>
+
+<header class="top">
+  <div class="wrap top-row">
+    <div class="brand"><span class="orb-mini"></span><span id="brandName">Style Oracle</span></div>
+    <div class="lang">
+      <button id="btn-th" class="active" onclick="setLang('th')">ไทย</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="orb"></div>
+    <h1 id="heroTitle"></h1>
+    <p class="sub" id="heroSub"></p>
+    <p class="hint" id="heroHint"></p>
+  </section>
+
+  <section class="grid">
+    <!-- MOOD -->
+    <div class="module">
+      <h3><span class="ico">🌈</span><span data-i="m_mood"></span></h3>
+      <p class="opt-note" data-i="optional"></p>
+      <div class="chips" id="moodChips"></div>
+    </div>
+
+    <!-- BIRTHDAY / LUCKY COLOR -->
+    <div class="module">
+      <h3><span class="ico">🎂</span><span data-i="m_birth"></span></h3>
+      <p class="opt-note" data-i="optional"></p>
+      <div class="field">
+        <label class="lbl" data-i="birth_pick"></label>
+        <select id="daySelect" onchange="updateLuck()"></select>
+      </div>
+      <div class="luck-prev" id="luckPrev">
+        <div class="luck-dot" id="luckDot"></div>
+        <span id="luckText"></span>
+      </div>
+    </div>
+
+    <!-- GOAL -->
+    <div class="module">
+      <h3><span class="ico">🎯</span><span data-i="m_goal"></span></h3>
+      <p class="opt-note" data-i="optional"></p>
+      <div class="chips" id="goalChips"></div>
+    </div>
+
+    <!-- PERSONAL COLOUR -->
+    <div class="module">
+      <h3><span class="ico">📸</span><span data-i="m_pc"></span></h3>
+      <p class="opt-note" data-i="pc_note"></p>
+      <input type="file" id="photoInput" accept="image/*" hidden>
+      <div class="drop" id="dropZone" onclick="document.getElementById('photoInput').click()" data-i="pc_drop"></div>
+      <div class="pc-result" id="pcResult">
+        <div class="pc-swatch" id="pcSwatch"></div>
+        <div class="pc-text" id="pcText"></div>
+      </div>
+      <div class="field" style="margin-top:14px;">
+        <label class="lbl" data-i="pc_manual"></label>
+        <select id="seasonSelect" onchange="manualSeason()"></select>
+      </div>
+      <div class="swatch-row" id="seasonSw"></div>
+    </div>
+
+    <!-- ANGEL -->
+    <div class="module">
+      <h3><span class="ico">🪽</span><span data-i="m_angel"></span></h3>
+      <p class="opt-note" data-i="angel_note"></p>
+      <div class="angel-card" id="angelCard"></div>
+      <div style="text-align:center;"><button class="mini-btn" onclick="rollAngel(true)" data-i="angel_redraw"></button></div>
+    </div>
+
+    <!-- FAIRY TALE -->
+    <div class="module">
+      <h3><span class="ico">🧚</span><span data-i="m_tale"></span></h3>
+      <p class="opt-note" data-i="optional"></p>
+      <div class="chips" id="taleChips"></div>
+    </div>
+  </section>
+
+  <div class="cast-wrap">
+    <button class="cast" onclick="castSpell()" id="castBtn"></button>
+  </div>
+
+  <!-- RESULT -->
+  <section id="result">
+    <div class="verdict">
+      <div class="eyebrow" data-i="todays_vibe"></div>
+      <h2 id="vibeTitle"></h2>
+      <p class="persona" id="personaText"></p>
+      <div class="tags" id="vibeTags"></div>
+      <div class="palette-show" id="paletteShow"></div>
+      <div class="looks" id="looksGrid"></div>
+      <div class="blessing">
+        <div class="b-ico">✨</div>
+        <p id="blessingText"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="support">
+    <h2 data-i="sup_title"></h2>
+    <p class="msg" id="supMsg"></p>
+    <div class="bank">
+      <div class="who">นางสาวสุพิชฌาย์ ลัทธิกุล</div>
+      <div class="label">Bangkok Bank (BBL)</div>
+      <div class="acct">
+        <span class="no" id="acctNo">009-0-62705-0</span>
+        <button class="copy-btn" onclick="copyAcct()" id="copyBtn"></button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p id="footText"></p>
+</footer>
+
+<script>
+/* ============== STATE ============== */
+let LANG='th';
+const state={mood:null,goal:null,tale:null,season:null,day:null,angel:null};
+
+/* ============== I18N STRINGS ============== */
+const T={
+  th:{
+    brand:'ออราเคิลแต่งตัว',
+    heroTitle:'วันนี้แต่งตัวยังไงดี?',
+    heroSub:'ออราเคิลแฟชั่นสไตล์เทพนิยาย ช่วยเสกลุคจากอารมณ์ สีมงคล เป้าหมาย และโทนผิวของคุณ ใช้ได้ทุกเพศทุกวัย',
+    heroHint:'เลือกครบทุกข้อ หรือแค่ข้อเดียวก็ได้ แล้วกดเสกลุค ✦',
+    optional:'ไม่บังคับ · เลือกหรือข้ามก็ได้',
+    m_mood:'อารมณ์วันนี้',
+    m_birth:'สีมงคลประจำวันเกิด',
+    birth_pick:'คุณเกิดวันอะไร?',
+    m_goal:'เป้าหมายวันนี้',
+    m_pc:'Personal Colour (โทนผิว)',
+    pc_note:'อัปโหลดรูปหน้าตรงแสงธรรมชาติ เพื่อให้วิเคราะห์โทนผิวคร่าวๆ (รูปอยู่ในเครื่องคุณ ไม่ถูกส่งไปไหน)',
+    pc_drop:'📷 แตะเพื่อเลือกรูป / ถ่ายรูป',
+    pc_manual:'หรือเลือกซีซั่นเองก็ได้',
+    m_angel:'เทวดาประจำตัววันนี้',
+    angel_note:'ทูตสวรรค์ที่จะอยู่เคียงข้างคุณวันนี้',
+    angel_redraw:'✦ สุ่มใหม่',
+    m_tale:'โหมดเทพนิยาย',
+    todays_vibe:'วันนี้ของคุณ',
+    cast:'✨ เสกลุคให้ฉันที',
+    sup_title:'ถ้าชอบ มาสนับสนุนกันได้นะ 💛',
+    sup_msg:'ถ้าเว็บนี้ทำให้วันของคุณสดใสขึ้น ชวนมาเลี้ยงกาแฟผู้จัดทำ เพื่อให้มีแรงสร้างสรรค์ช่องทางสนุกๆ เพิ่มขึ้นเรื่อยๆ ขอบคุณจากใจ ✨',
+    copy:'คัดลอกเลขบัญชี',
+    copied:'คัดลอกแล้ว ✓',
+    foot:'สร้างด้วยใจ ✦ ขอให้ทุกวันของคุณสวยและสดใส',
+    pc_detected:'โทนผิวที่ตรวจพบ',
+    pc_fail:'ตรวจไม่เจอผิวในรูปชัดเจน ลองรูปหน้าตรงแสงสว่างอีกครั้ง หรือเลือกซีซั่นเองด้านล่างได้เลย',
+    pin:'ดูลุคจริงบน Pinterest',
+    warm:'โทนอุ่น',cool:'โทนเย็น',light:'สว่าง',deep:'เข้ม',
+    cast_empty:'ยังไม่ได้เลือกอะไรเลย — งั้นออราเคิลขอเสกลุคเซอร์ไพรส์ให้นะ! ✨'
+  },
+  en:{
+    brand:'Style Oracle',
+    heroTitle:'What should you wear today?',
+    heroSub:'A fairy-tale fashion oracle that conjures your look from your mood, lucky colour, goal, and skin tone. For every gender and every age.',
+    heroHint:'Fill in everything, or just one thing — then cast your look ✦',
+    optional:'Optional · pick or skip',
+    m_mood:"Today's mood",
+    m_birth:'Lucky colour by birthday',
+    birth_pick:'Which day were you born?',
+    m_goal:"Today's goal",
+    m_pc:'Personal Colour (skin tone)',
+    pc_note:'Upload a front-facing photo in natural light for a rough skin-tone read (the photo stays on your device).',
+    pc_drop:'📷 Tap to choose / take a photo',
+    pc_manual:'Or pick your season manually',
+    m_angel:'Your angel for today',
+    angel_note:'The guardian by your side today',
+    angel_redraw:'✦ Draw again',
+    m_tale:'Fairy-tale mode',
+    todays_vibe:'Your day',
+    cast:'✨ Cast my look',
+    sup_title:'Loved it? Support the maker 💛',
+    sup_msg:'If this brightened your day, buy the maker a coffee so more playful little corners like this can keep being created. Thank you from the heart ✨',
+    copy:'Copy account number',
+    copied:'Copied ✓',
+    foot:'Made with heart ✦ may your every day be bright and beautiful',
+    pc_detected:'Detected skin tone',
+    pc_fail:"Couldn't clearly detect skin in the photo. Try a front-facing shot in good light, or pick a season manually below.",
+    pin:'See real looks on Pinterest',
+    warm:'warm',cool:'cool',light:'light',deep:'deep',
+    cast_empty:'You picked nothing yet — so the oracle will conjure a surprise look! ✨'
+  }
+};
+
+/* ============== DATA ============== */
+const DAYS={
+  th:['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'],
+  en:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+};
+const DAY_COLORS=[
+  {hex:'#E4572E',th:'แดง',en:'Red',palette:['#E4572E','#FF8A5B','#FFD3C2'],note:{th:'สีแห่งพลังและความมั่นใจ',en:'Color of power & confidence'}},
+  {hex:'#F2C94C',th:'เหลือง/ครีม',en:'Yellow / Cream',palette:['#F2C94C','#FCE6A8','#FFF6D6'],note:{th:'สีแห่งความสุขและโชคลาภ',en:'Color of joy & good fortune'}},
+  {hex:'#F178B6',th:'ชมพู',en:'Pink',palette:['#F178B6','#FBB6D7','#FFE1EF'],note:{th:'สีแห่งความรักและเสน่ห์',en:'Color of love & charm'}},
+  {hex:'#27AE60',th:'เขียว',en:'Green',palette:['#27AE60','#7AD9A0','#CFF3DF'],note:{th:'สีแห่งความสำเร็จและการสื่อสาร',en:'Color of success & communication'}},
+  {hex:'#F2994A',th:'ส้ม/แสด',en:'Orange',palette:['#F2994A','#FFC08A','#FFE3CC'],note:{th:'สีแห่งความรุ่งเรืองและบารมี',en:'Color of prosperity & influence'}},
+  {hex:'#2D9CDB',th:'ฟ้า/น้ำเงิน',en:'Blue',palette:['#2D9CDB','#88C9F0','#D4ECFA'],note:{th:'สีแห่งความสงบและเมตตา',en:'Color of calm & kindness'}},
+  {hex:'#9B51E0',th:'ม่วง',en:'Purple',palette:['#9B51E0','#C39BEC','#EADCFB'],note:{th:'สีแห่งเสน่ห์และความลึกลับ',en:'Color of allure & mystery'}}
+];
+
+const MOODS=[
+  {id:'happy',emoji:'☀️',th:'สดใส',en:'Bright',kw:'colorful cheerful outfit'},
+  {id:'calm',emoji:'🌿',th:'สงบ',en:'Calm',kw:'minimal soft neutral outfit'},
+  {id:'confident',emoji:'🔥',th:'มั่นใจ',en:'Confident',kw:'power dressing chic outfit'},
+  {id:'romantic',emoji:'🌸',th:'โรแมนติก',en:'Romantic',kw:'soft romantic feminine outfit'},
+  {id:'energetic',emoji:'⚡',th:'มีพลัง',en:'Energetic',kw:'sporty bold streetwear outfit'},
+  {id:'mysterious',emoji:'🌙',th:'ลึกลับ',en:'Mysterious',kw:'dark moody elegant outfit'},
+  {id:'dreamy',emoji:'☁️',th:'ละมุน',en:'Dreamy',kw:'pastel dreamy fairycore outfit'},
+  {id:'bold',emoji:'💥',th:'กล้าแสดงออก',en:'Bold',kw:'statement avant garde outfit'}
+];
+
+const GOALS=[
+  {id:'work',emoji:'💼',th:'ทำงาน/ประชุม',en:'Work / Meeting',kw:'smart casual office outfit'},
+  {id:'date',emoji:'💕',th:'เดท',en:'Date',kw:'date night outfit'},
+  {id:'party',emoji:'🎉',th:'ปาร์ตี้',en:'Party',kw:'party glam outfit'},
+  {id:'chill',emoji:'🧋',th:'เที่ยวชิล',en:'Casual hangout',kw:'casual cafe outfit'},
+  {id:'interview',emoji:'📝',th:'สัมภาษณ์/สอบ',en:'Interview / Exam',kw:'polished interview outfit'},
+  {id:'travel',emoji:'✈️',th:'ท่องเที่ยว',en:'Travel',kw:'comfy travel outfit'},
+  {id:'photo',emoji:'📷',th:'ถ่ายรูป',en:'Photoshoot',kw:'photoshoot aesthetic outfit'},
+  {id:'selfcare',emoji:'🛁',th:'อยู่บ้าน/ดูแลตัวเอง',en:'Self-care day',kw:'cozy loungewear'}
+];
+
+const SEASONS={
+  spring:{th:'สปริง · อุ่นสดใส',en:'Spring · Warm & Bright',palette:['#FF9E7A','#FFD56B','#9FE6A0','#FFB3C6'],
+    desc:{th:'โทนอุ่นสว่าง สดใสมีชีวิตชีวา เหมาะกับสีพีช คอรัล เขียวมิ้นต์ เหลืองทอง',en:'Warm, light & lively — peach, coral, mint, golden yellow look radiant on you.'}},
+  summer:{th:'ซัมเมอร์ · เย็นนุ่ม',en:'Summer · Cool & Soft',palette:['#A8C7E8','#C9B6E4','#F4B8C8','#BFE3DA'],
+    desc:{th:'โทนเย็นนุ่มละมุน เหมาะกับฟ้าพาสเทล ลาเวนเดอร์ ชมพูกุหลาบ เทาฟ้า',en:'Cool & soft — powder blue, lavender, rose, dusty teal flatter you most.'}},
+  autumn:{th:'ออทัมน์ · อุ่นเข้ม',en:'Autumn · Warm & Deep',palette:['#C9762F','#8A5A2B','#A8843B','#6E8B3D'],
+    desc:{th:'โทนอุ่นเข้มอบอุ่น เหมาะกับน้ำตาลคาราเมล ส้มอิฐ เขียวมะกอก ทองเข้ม',en:'Warm & deep — caramel, terracotta, olive, deep gold suit you beautifully.'}},
+  winter:{th:'วินเทอร์ · เย็นคม',en:'Winter · Cool & Clear',palette:['#1F3A93','#C0392B','#2C2C54','#E8E8F0'],
+    desc:{th:'โทนเย็นคมชัด เหมาะกับสีจัด ขาวบริสุทธิ์ ดำ น้ำเงินเข้ม แดงสด',en:'Cool & clear — crisp white, true black, navy, vivid red are your power tones.'}}
+};
+
+/* angels — original guardian deck */
+const ANGELS=[
+  {emoji:'🌟',name:'Aurelia',color:'#f3c969',th:'ทูตแห่งแสงทอง — วันนี้ความมั่นใจของคุณจะส่องประกาย ทำสิ่งที่กลัวให้สำเร็จ',en:'Angel of Golden Light — your confidence shines today; do the thing you’ve been afraid of.'},
+  {emoji:'🕊️',name:'Seraphine',color:'#9cd6f2',th:'ทูตแห่งความสงบ — หายใจลึกๆ ทุกอย่างจะคลี่คลายอย่างนุ่มนวล',en:'Angel of Peace — breathe deep; everything will unfold gently.'},
+  {emoji:'🌹',name:'Roselith',color:'#f178b6',th:'ทูตแห่งความรัก — เปิดใจรับความอ่อนโยน คนรอบข้างจะเอ็นดูคุณเป็นพิเศษ',en:'Angel of Love — open your heart; people will adore you today.'},
+  {emoji:'🌿',name:'Verena',color:'#27ae60',th:'ทูตแห่งการเติบโต — ก้าวเล็กๆ วันนี้จะกลายเป็นความสำเร็จที่ยิ่งใหญ่',en:'Angel of Growth — small steps today become great wins.'},
+  {emoji:'🌙',name:'Lunara',color:'#9b51e0',th:'ทูตแห่งสัญชาตญาณ — เชื่อเสียงในใจตัวเอง มันจะนำทางคุณถูกเสมอ',en:'Angel of Intuition — trust your inner voice; it guides you true.'},
+  {emoji:'🔥',name:'Ignatia',color:'#e4572e',th:'ทูตแห่งพลังไฟ — วันนี้คือวันของคุณ ลุยให้สุดแล้วจะภูมิใจ',en:'Angel of Fire — today is yours; go all in and be proud.'},
+  {emoji:'💎',name:'Celestine',color:'#2d9cdb',th:'ทูตแห่งความชัดเจน — ความคิดจะแจ่มใส ตัดสินใจสำคัญได้ลงตัว',en:'Angel of Clarity — your mind is clear; big decisions land well.'},
+  {emoji:'🦋',name:'Papillon',color:'#c39bec',th:'ทูตแห่งการเปลี่ยนแปลง — ปล่อยสิ่งเก่า ต้อนรับสิ่งใหม่ที่สวยงาม',en:'Angel of Transformation — release the old, welcome something beautiful.'},
+  {emoji:'☁️',name:'Nimbella',color:'#a8c7e8',th:'ทูตแห่งความฝัน — วันนี้เหมาะกับการฝันให้ไกล แล้วลงมือทำ',en:'Angel of Dreams — dream big today, then take one real step.'},
+  {emoji:'✨',name:'Stellaria',color:'#ffd56b',th:'ทูตแห่งโชคลาภ — เปิดรับเรื่องดีๆ เซอร์ไพรส์เล็กๆ กำลังมาหา',en:'Angel of Fortune — stay open; a lovely little surprise is on its way.'}
+];
+
+/* fairy-tale archetypes (public-domain tales) */
+const TALES=[
+  {id:'cinderella',emoji:'👠',th:'ซินเดอเรลล่า',en:'Cinderella',aes:{th:'ลุคเจ้าหญิงยามค่ำ ชุดพลิ้วประกายชิมเมอร์',en:'midnight-ball princess, flowing shimmer'},palette:['#A8C7E8','#C9B6E4','#E8E8F0'],kw:'cinderella blue ballgown elegant'},
+  {id:'snow',emoji:'🍎',th:'สโนว์ไวท์',en:'Snow White',aes:{th:'คอนทราสต์คมชัด แดง-ดำ-ขาว สง่างาม',en:'crisp red-black-white contrast, regal'},palette:['#C0392B','#2C2C54','#F8F8FF'],kw:'snow white red blue classic outfit'},
+  {id:'mermaid',emoji:'🧜',th:'เงือกน้อย',en:'Little Mermaid',aes:{th:'โทนทะเลเขียวมรกต ฟ้าเทอร์ควอยซ์ ประกายมุก',en:'sea-glass teal & pearl iridescence'},palette:['#1ABC9C','#48C9B0','#BFE3DA'],kw:'mermaidcore teal iridescent outfit'},
+  {id:'alice',emoji:'🫖',th:'อลิซในแดนมหัศจรรย์',en:'Alice in Wonderland',aes:{th:'ลุคแปลกตาสนุก ฟ้า-ขาว ลายกราฟิกขี้เล่น',en:'whimsical blue-white, playful prints'},palette:['#5DADE2','#F8F8FF','#F4D03F'],kw:'whimsical alice blue pinafore quirky outfit'},
+  {id:'rapunzel',emoji:'🏰',th:'ราพันเซล',en:'Rapunzel',aes:{th:'โทนม่วงลาเวนเดอร์ ทองอ่อน อ่อนหวานละมุน',en:'lavender & soft gold, sweet & romantic'},palette:['#C39BEC','#F2C94C','#EADCFB'],kw:'lavender purple romantic flowy outfit'},
+  {id:'snowqueen',emoji:'❄️',th:'ราชินีหิมะ',en:'Snow Queen',aes:{th:'โทนน้ำแข็ง ฟ้าเงิน ขาวคริสตัล ทรงพลังเย็นชา',en:'icy silver-blue, crystal white, powerful'},palette:['#A0D8F1','#D6E6F2','#E8F4FA'],kw:'ice queen silver blue dramatic outfit'},
+  {id:'beauty',emoji:'🌹',th:'โฉมงาม',en:'Beauty',aes:{th:'เหลืองทองหรูหรา ผ้าซาตินพลิ้วไหว',en:'golden satin, luxe and romantic'},palette:['#F2C94C','#E4A11B','#FCE6A8'],kw:'golden yellow gown elegant romantic outfit'},
+  {id:'thumb',emoji:'🌷',th:'นิ้วโป้ง (คอตเทจคอร์)',en:'Thumbelina (Cottagecore)',aes:{th:'ดอกไม้ ผ้าลินิน โทนพาสเทลธรรมชาติ',en:'florals, linen, soft natural pastels'},palette:['#9FE6A0','#FFB3C6','#FFD56B'],kw:'cottagecore floral linen soft outfit'}
+];
+
+/* persona/vibe pool — style references only */
+const PERSONAS=[
+  {moods:['happy','energetic'],th:'วันนี้คุณให้ฟีลแบบไอดอลเกิร์ลกรุ๊ปสายสดใส (แนว Twice / NewJeans) สีสันป๊อปกุ๊กกิ๊ก พลังบวกล้นจอ',en:'Today you give bright color-pop idol energy (think Twice / NewJeans) — playful, poppy, full of good vibes.',kw:'kpop idol bright color pop fashion'},
+  {moods:['confident','bold'],th:'วันนี้ออร่าคุณคือ "เซเลปสายชาเมเลียน" แบบ Zendaya — เปลี่ยนลุคได้ทุกสไตล์อย่างมั่นใจ',en:'Your aura today is chameleon-celebrity à la Zendaya — owning every silhouette with total confidence.',kw:'zendaya red carpet bold chic fashion'},
+  {moods:['romantic','dreamy'],th:'วันนี้คุณคือนางเอกซีรีส์ยุครีเจนซี (vibe Bridgerton) สาย Regencycore โรแมนติกพลิ้วไหว',en:'You’re a regency-era lead today (Bridgerton vibes) — soft Regencycore romance in motion.',kw:'bridgerton regencycore pastel romantic outfit'},
+  {moods:['mysterious','calm'],th:'วันนี้คือสาย Dark Academia แบบโลกเวทมนตร์ฮอกวอตส์ ทวีต ผ้าพันคอ โทนห้องสมุดเก่า',en:'Dark Academia today — Hogwarts-world energy: tweed, scarves, old-library tones.',kw:'dark academia hogwarts tweed scarf outfit'},
+  {moods:['bold','confident'],th:'วันนี้พลังฮีโร่มาเต็ม (vibe Marvel) ลุคสะอาดเฉียบ ดูทรงพลังพร้อมลุย',en:'Hero energy today (Marvel vibes) — sleek, sharp, ready-for-anything power look.',kw:'sleek powerful hero core outfit'},
+  {moods:['calm','dreamy'],th:'วันนี้คือสายมินิมอลญี่ปุ่น (Muji-core) เรียบ สงบ คุมโทน ดูแพงแบบไม่พยายาม',en:'Japanese minimalist today (Muji-core) — quiet, tonal, effortlessly expensive.',kw:'japanese minimalist muji neutral outfit'},
+  {moods:['happy','dreamy'],th:'วันนี้คือสายฮาราจูกุ/มาโฮโชโจ สีพาสเทลขี้เล่น มิกซ์สนุกไม่ซ้ำใคร',en:'Harajuku / magical-girl today — playful pastels mixed your own unique way.',kw:'harajuku pastel magical girl playful outfit'},
+  {moods:['mysterious','dreamy'],th:'วันนี้คือสายซีดราม่าจีนแนวเซียนเสีย (Hanfu-modern) พลิ้วไหวลึกลับสง่างาม',en:'C-drama xianxia today (modern Hanfu) — flowing, ethereal, quietly powerful.',kw:'modern hanfu flowy ethereal outfit'},
+  {moods:['romantic','confident'],th:'วันนี้คือนางเอก/พระเอกซีรีส์ไทย T-pop chic สวยเปรี้ยวลงตัวกำลังดี',en:'Thai series lead today — T-pop chic, polished and just-the-right-amount of edge.',kw:'thai actress chic street style outfit'},
+  {moods:['energetic','confident'],th:'วันนี้คือสายสตาร์ทอัพไฟแรง (vibe สงครามส่งด่วน) สมาร์ทแคชชวลคล่องตัวพร้อมพิชิตเป้าหมาย',en:'High-energy startup hustle today (Mad Unicorn vibes) — smart-casual and ready to win.',kw:'smart casual startup minimal outfit'},
+  {moods:['calm','romantic'],th:'วันนี้คือสายคลาสสิกเหนือกาลเวลา แบบ Audrey Hepburn เรียบหรูไม่มีวันเอาท์',en:'Timeless classic today, Audrey-Hepburn style — understated elegance that never dates.',kw:'audrey hepburn timeless elegant outfit'},
+  {moods:['bold','energetic'],th:'วันนี้คือสาย genderfluid กล้าทดลอง แบบ Harry Styles สนุกกับลายและสีจัดเต็ม',en:'Genderfluid maximalist today à la Harry Styles — bold prints and color, all play.',kw:'genderfluid maximalist bold print outfit'}
+];
+
+/* look concept templates */
+const LOOK_TEMPLATES=[
+  {fig:'🧥',th:'เลเยอร์เก๋',en:'Layered Statement',descTh:'มิกซ์เสื้อตัวนอกกับเลเยอร์บางๆ เพิ่มมิติให้ลุคดูตั้งใจแต่ไม่พยายาม',descEn:'Mix an outer layer over something light — depth that looks intentional, not try-hard.'},
+  {fig:'👗',th:'ชิ้นเด่นชิ้นเดียว',en:'One Hero Piece',descTh:'เลือกชิ้นเด่นหนึ่งชิ้นเป็นพระเอก แล้วให้ที่เหลือเรียบลงเพื่อขับให้โดดเด่น',descEn:'Let one standout piece lead, keep the rest quiet so it truly sings.'},
+  {fig:'👜',th:'รายละเอียดเล็กๆ',en:'Accessory Magic',descTh:'เครื่องประดับและกระเป๋าโทนเดียวกับสีมงคล เปลี่ยนลุคธรรมดาให้พิเศษ',descEn:'Accessories in your lucky tone turn an everyday outfit into something special.'},
+  {fig:'👟',th:'สบายแต่เท่',en:'Comfort, Elevated',descTh:'เน้นทรงที่ใส่สบายแต่ดูคุมโทน เหมาะกับวันที่ต้องเคลื่อนไหวเยอะ',descEn:'Comfortable silhouettes kept tonal and tidy — perfect for an on-the-move day.'},
+  {fig:'🕶️',th:'โมโนโทนคุมโทน',en:'Tonal Mono-look',descTh:'แต่งโทนสีเดียวไล่เฉด ดูสูงและแพงขึ้นทันทีแบบไม่ต้องพยายาม',descEn:'Dress head-to-toe in one color family — instantly taller and more polished.'}
+];
+
+/* ============== BUILD UI ============== */
+function buildChips(arr,containerId,key){
+  const c=document.getElementById(containerId);
+  c.innerHTML='';
+  arr.forEach(item=>{
+    const el=document.createElement('div');
+    el.className='chip';
+    el.dataset.id=item.id;
+    el.innerHTML=(item.emoji?item.emoji+' ':'')+'<span>'+item[LANG]+'</span>';
+    el.onclick=()=>{
+      if(state[key]===item.id){state[key]=null;el.classList.remove('sel');}
+      else{
+        c.querySelectorAll('.chip').forEach(x=>x.classList.remove('sel'));
+        state[key]=item.id;el.classList.add('sel');
+      }
+    };
+    if(state[key]===item.id) el.classList.add('sel');
+    c.appendChild(el);
+  });
+}
+
+function buildSelects(){
+  const ds=document.getElementById('daySelect');
+  ds.innerHTML='<option value="">— '+(LANG==='th'?'เลือกวัน':'choose')+' —</option>';
+  DAYS[LANG].forEach((d,i)=>{ds.innerHTML+=`<option value="${i}">${d}</option>`;});
+  ds.value=state.day??'';
+
+  const ss=document.getElementById('seasonSelect');
+  ss.innerHTML='<option value="">— '+(LANG==='th'?'เลือกซีซั่น':'choose season')+' —</option>';
+  Object.keys(SEASONS).forEach(k=>{ss.innerHTML+=`<option value="${k}">${SEASONS[k][LANG]}</option>`;});
+  ss.value=state.season??'';
+}
+
+function updateLuck(){
+  const v=document.getElementById('daySelect').value;
+  state.day=v===''?null:parseInt(v);
+  const p=document.getElementById('luckPrev');
+  if(state.day===null){p.style.display='none';return;}
+  const c=DAY_COLORS[state.day];
+  document.getElementById('luckDot').style.background=c.hex;
+  document.getElementById('luckText').innerHTML=`<b>${c[LANG]}</b> — ${c.note[LANG]}`;
+  p.style.display='flex';
+}
+
+function manualSeason(){
+  const v=document.getElementById('seasonSelect').value;
+  state.season=v||null;
+  renderSeasonSwatches();
+}
+function renderSeasonSwatches(){
+  const c=document.getElementById('seasonSw');c.innerHTML='';
+  if(!state.season)return;
+  SEASONS[state.season].palette.forEach(col=>{
+    const s=document.createElement('div');s.className='sw';s.style.background=col;c.appendChild(s);
+  });
+}
+
+/* ============== ANGEL ============== */
+function rollAngel(random){
+  let idx;
+  if(random){idx=Math.floor(Math.random()*ANGELS.length);}
+  else{
+    const today=new Date();
+    const seed=today.getFullYear()*1000+ (Math.floor((today-new Date(today.getFullYear(),0,0))/86400000));
+    idx=seed%ANGELS.length;
+  }
+  state.angel=ANGELS[idx];
+  const a=state.angel;
+  document.getElementById('angelCard').innerHTML=
+    `<div class="ang-emoji">${a.emoji}</div>
+     <div class="ang-name">${a.name}</div>
+     <div class="ang-msg">${a[LANG]}</div>`;
+}
+
+/* ============== PHOTO ANALYSIS ============== */
+document.getElementById('photoInput').addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  const img=new Image();
+  img.onload=()=>analyzePhoto(img);
+  img.src=URL.createObjectURL(file);
+});
+
+function analyzePhoto(img){
+  const c=document.createElement('canvas');
+  const w=c.width=Math.min(img.naturalWidth,320);
+  const h=c.height=Math.round(img.naturalHeight*(w/img.naturalWidth));
+  const ctx=c.getContext('2d');
+  ctx.drawImage(img,0,0,w,h);
+  let data;
+  try{data=ctx.getImageData(0,0,w,h).data;}catch(err){return;}
+  let r=0,g=0,b=0,n=0;
+  for(let i=0;i<data.length;i+=4){
+    const R=data[i],G=data[i+1],B=data[i+2],A=data[i+3];
+    if(A<200)continue;
+    const mx=Math.max(R,G,B),mn=Math.min(R,G,B);
+    if(R>60&&G>40&&B>20&&R>=G&&G>=B&&(mx-mn)>10&&(R-B)>8&&R<252){r+=R;g+=G;b+=B;n++;}
+  }
+  const res=document.getElementById('pcResult');
+  if(n<40){
+    res.style.display='flex';
+    document.getElementById('pcSwatch').style.background='#ddd';
+    document.getElementById('pcText').textContent=T[LANG].pc_fail;
+    return;
+  }
+  r=Math.round(r/n);g=Math.round(g/n);b=Math.round(b/n);
+  const warmth=r-b;
+  const lum=0.299*r+0.587*g+0.114*b;
+  const warm=warmth>62;
+  const light=lum>150;
+  let season = warm?(light?'spring':'autumn'):(light?'summer':'winter');
+  state.season=season;
+  document.getElementById('seasonSelect').value=season;
+  renderSeasonSwatches();
+
+  res.style.display='flex';
+  document.getElementById('pcSwatch').style.background=`rgb(${r},${g},${b})`;
+  const tone=`${warm?T[LANG].warm:T[LANG].cool} · ${light?T[LANG].light:T[LANG].deep}`;
+  document.getElementById('pcText').innerHTML=
+    `${T[LANG].pc_detected}: <b>${tone}</b><br>→ <b>${SEASONS[season][LANG]}</b><br>
+     <span style="font-size:.85em;color:var(--ink-soft)">${SEASONS[season].desc[LANG]}</span>`;
+}
+
+/* ============== CAST ============== */
+function pickPersona(){
+  if(state.mood){
+    const matches=PERSONAS.filter(p=>p.moods.includes(state.mood));
+    if(matches.length)return matches[Math.floor(Math.random()*matches.length)];
+  }
+  return PERSONAS[Math.floor(Math.random()*PERSONAS.length)];
+}
+
+function getPalette(){
+  if(state.season)return SEASONS[state.season].palette.slice();
+  if(state.day!==null)return DAY_COLORS[state.day].palette.slice();
+  if(state.tale){const t=TALES.find(x=>x.id===state.tale);if(t)return t.palette.slice();}
+  return ['#b79ced','#f7a8c4','#ffc6a0','#9cd6f2'];
+}
+
+function buildPinQuery(extra){
+  const parts=[];
+  const mood=MOODS.find(m=>m.id===state.mood);
+  const goal=GOALS.find(g=>g.id===state.goal);
+  const tale=TALES.find(t=>t.id===state.tale);
+  if(mood)parts.push(mood.kw);
+  if(goal)parts.push(goal.kw);
+  if(tale)parts.push(tale.kw);
+  if(state.day!==null)parts.push(DAY_COLORS[state.day].en.toLowerCase().replace(/\/.*/,'')+' outfit');
+  if(state.season)parts.push(SEASONS[state.season].en.split(' ')[0].toLowerCase()+' color palette outfit');
+  if(extra)parts.push(extra);
+  if(!parts.length)parts.push('aesthetic outfit inspiration');
+  return encodeURIComponent(parts.join(' ').replace(/\s+/g,' ').trim());
+}
+
+function castSpell(){
+  const t=T[LANG];
+  const persona=pickPersona();
+  if(!state.angel)rollAngel(false);
+
+  // title
+  const tale=TALES.find(x=>x.id===state.tale);
+  let title = tale ? (LANG==='th'?`โหมด ${tale.th} ✦`:`${tale.en} mode ✦`)
+                   : (LANG==='th'?'ลุคแห่งวันของคุณ ✦':'Your look of the day ✦');
+  document.getElementById('vibeTitle').textContent=title;
+
+  // persona text
+  let pText=persona[LANG];
+  if(tale)pText+= ' '+(LANG==='th'?`ผสานความเป็น${tale.th} (${tale.aes.th})`:`fused with ${tale.en} (${tale.aes.en})`);
+  document.getElementById('personaText').textContent=pText;
+
+  // tags
+  const tagBox=document.getElementById('vibeTags');tagBox.innerHTML='';
+  const addTag=(emoji,txt)=>{const e=document.createElement('span');e.className='tag';e.textContent=emoji+' '+txt;tagBox.appendChild(e);};
+  if(state.mood){const m=MOODS.find(x=>x.id===state.mood);addTag(m.emoji,m[LANG]);}
+  if(state.goal){const g=GOALS.find(x=>x.id===state.goal);addTag(g.emoji,g[LANG]);}
+  if(state.day!==null){addTag('🎨',(LANG==='th'?'สีมงคล: ':'Lucky: ')+DAY_COLORS[state.day][LANG]);}
+  if(state.season){addTag('🌈',SEASONS[state.season][LANG]);}
+  if(state.angel){addTag(state.angel.emoji,state.angel.name);}
+  if(!tagBox.children.length){addTag('✨',t.cast_empty);}
+
+  // palette
+  const pal=getPalette();
+  const ps=document.getElementById('paletteShow');ps.innerHTML='';
+  pal.forEach(col=>{const s=document.createElement('div');s.className='sw';s.style.background=col;ps.appendChild(s);});
+
+  // looks
+  const grid=document.getElementById('looksGrid');grid.innerHTML='';
+  const count=3+Math.floor(Math.random()*3); //3-5
+  const templates=[...LOOK_TEMPLATES].sort(()=>Math.random()-0.5).slice(0,count);
+  templates.forEach((tpl,i)=>{
+    const c1=pal[i%pal.length],c2=pal[(i+1)%pal.length],c3=pal[(i+2)%pal.length];
+    const card=document.createElement('div');
+    card.className='look';card.style.animationDelay=(i*0.08)+'s';
+    const q=buildPinQuery(tpl.en.toLowerCase());
+    card.innerHTML=`
+      <div class="canvas" style="background:linear-gradient(150deg,${c1},${c2} 60%,${c3})">
+        <span class="num">0${i+1}</span>
+        <span class="figure">${tpl.fig}</span>
+      </div>
+      <div class="body">
+        <h4>${tpl[LANG]}</h4>
+        <p>${LANG==='th'?tpl.descTh:tpl.descEn}</p>
+        <a class="pin-btn" target="_blank" rel="noopener"
+           href="https://www.pinterest.com/search/pins/?q=${q}">📌 ${t.pin}</a>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  // blessing
+  document.getElementById('blessingText').textContent=makeBlessing();
+
+  // show
+  const r=document.getElementById('result');
+  r.style.display='block';
+  r.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function makeBlessing(){
+  const a=state.angel;
+  const blessTh=[
+    'ขอให้วันนี้คุณเปล่งประกายในแบบของตัวเอง ใครเห็นก็อดยิ้มตาม 💛',
+    'ขอให้ทุกก้าวของคุณวันนี้มั่นใจ สวยงาม และเต็มไปด้วยเรื่องดีๆ ✨',
+    'ลุคพร้อม ใจพร้อม วันนี้ออกไปเป็นตัวเองเวอร์ชันที่ดีที่สุดเลยนะ 🌟',
+    'ขอให้เสน่ห์ของคุณวันนี้ดึงดูดแต่สิ่งดีๆ และโอกาสงามๆ เข้ามา 🍀'
+  ];
+  const blessEn=[
+    'May you shine in your own way today — the kind that makes people smile 💛',
+    'May every step today be confident, beautiful, and full of good things ✨',
+    'Look ready, heart ready — go be the best version of you today 🌟',
+    'May your charm today draw in only good people and lovely chances 🍀'
+  ];
+  const base=LANG==='th'?blessTh[Math.floor(Math.random()*blessTh.length)]
+                        :blessEn[Math.floor(Math.random()*blessEn.length)];
+  if(a){return base+' — '+a.name+': '+a[LANG];}
+  return base;
+}
+
+/* ============== SUPPORT ============== */
+function copyAcct(){
+  const num='0090627050';
+  const btn=document.getElementById('copyBtn');
+  navigator.clipboard.writeText(num).then(()=>{
+    btn.textContent=T[LANG].copied;
+    setTimeout(()=>btn.textContent=T[LANG].copy,1800);
+  }).catch(()=>{
+    btn.textContent=num;
+  });
+}
+
+/* ============== LANGUAGE ============== */
+function setLang(l){
+  LANG=l;
+  document.documentElement.lang=l;
+  document.getElementById('btn-th').classList.toggle('active',l==='th');
+  document.getElementById('btn-en').classList.toggle('active',l==='en');
+  applyI18n();
+  // rebuild dynamic UI
+  buildChips(MOODS,'moodChips','mood');
+  buildChips(GOALS,'goalChips','goal');
+  buildChips(TALES,'taleChips','tale');
+  buildSelects();
+  updateLuck();
+  renderSeasonSwatches();
+  rollAngel(false);
+  if(document.getElementById('result').style.display==='block')castSpell();
+}
+
+function applyI18n(){
+  const d=T[LANG];
+  document.getElementById('brandName').textContent=d.brand;
+  document.getElementById('heroTitle').textContent=d.heroTitle;
+  document.getElementById('heroSub').textContent=d.heroSub;
+  document.getElementById('heroHint').textContent=d.heroHint;
+  document.getElementById('castBtn').textContent=d.cast;
+  document.getElementById('supMsg').textContent=d.sup_msg;
+  document.getElementById('copyBtn').textContent=d.copy;
+  document.getElementById('footText').textContent=d.foot;
+  document.querySelectorAll('[data-i]').forEach(el=>{
+    const k=el.getAttribute('data-i');
+    if(d[k]!==undefined)el.textContent=d[k];
+  });
+}
+
+/* ============== INIT ============== */
+function makeStars(){
+  const box=document.getElementById('stars');
+  const glyphs=['✦','✧','⋆','✩','·'];
+  for(let i=0;i<26;i++){
+    const s=document.createElement('span');
+    s.className='star';
+    s.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.fontSize=(8+Math.random()*16)+'px';
+    s.style.animationDelay=(Math.random()*4)+'s';
+    box.appendChild(s);
+  }
+}
+
+makeStars();
+applyI18n();
+buildChips(MOODS,'moodChips','mood');
+buildChips(GOALS,'goalChips','goal');
+buildChips(TALES,'taleChips','tale');
+buildSelects();
+rollAngel(false);
+</script>
+</body>
+</html>
