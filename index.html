@@ -128,11 +128,12 @@ const ICON512="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT
   .angel-card .ang-msg{font-size:.9rem;color:var(--ink-soft);}
 
   /* cast */
-  .cast-wrap{text-align:center;margin:12px 0 6px;}
-  .cast{border:0;border-radius:999px;padding:15px 40px;font-family:'Kanit';font-weight:600;font-size:1.08rem;color:#fff;
-    cursor:pointer;background:linear-gradient(120deg,var(--lav-deep),var(--blush) 60%,var(--peach));
-    box-shadow:0 14px 34px -14px rgba(122,87,201,.7);transition:transform .15s;}
-  .cast:hover{transform:translateY(-2px);}
+  .cast-wrap{text-align:center;margin:30px 0 14px;}
+  .cast{border:0;border-radius:999px;padding:22px 60px;font-family:'Kanit';font-weight:700;font-size:clamp(1.25rem,3.6vw,1.6rem);color:#fff;
+    cursor:pointer;background:linear-gradient(120deg,var(--lav-deep),var(--blush) 55%,var(--peach));letter-spacing:.3px;
+    box-shadow:0 18px 44px -14px rgba(122,87,201,.75);transition:transform .15s, box-shadow .15s;animation:pulse 2.6s ease-in-out infinite;}
+  .cast:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 24px 54px -14px rgba(122,87,201,.85);}
+  @keyframes pulse{0%,100%{box-shadow:0 18px 44px -14px rgba(122,87,201,.7)}50%{box-shadow:0 18px 52px -10px rgba(240,166,192,.85)}}
 
   /* result */
   #result{margin:8px 0 26px;display:none;animation:rise .5s ease;}
@@ -143,21 +144,20 @@ const ICON512="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT
   .verdict .persona{font-size:1rem;color:var(--ink);max-width:640px;margin:7px auto 0;}
   .tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:15px 0 4px;}
   .tag{background:#f7f3fe;border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:.82rem;}
-  .palette-show{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:16px 0;}
+  .palette-show{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:14px 0;}
   .palette-show .sw{width:40px;height:40px;}
+  .palette-show.big{gap:9px;margin:8px 0 4px;}
+  .palette-show.big .sw{width:44px;height:44px;border-radius:11px;}
 
-  .inspo{margin:20px 0 4px;text-align:center;}
-  .inspo-frame{position:relative;width:100%;max-width:330px;margin:0 auto;aspect-ratio:4/5;border-radius:18px;overflow:hidden;
-    box-shadow:var(--shadow);border:1px solid var(--line);background:linear-gradient(150deg,var(--lav),var(--blush) 55%,var(--peach));}
-  .inspo-frame img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s;}
-  .inspo-frame img.show{opacity:1;}
-  .inspo-loading{position:absolute;inset:0;display:grid;place-items:center;color:#fff;text-align:center;padding:16px;
-    font-family:'Kanit';font-size:.88rem;text-shadow:0 1px 4px rgba(0,0,0,.25);}
-  .inspo-loading .spin{width:34px;height:34px;border:3px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;animation:rot 1s linear infinite;margin:0 auto 9px;}
-  @keyframes rot{to{transform:rotate(360deg)}}
-  .inspo-cap{font-size:.84rem;color:var(--ink-soft);max-width:370px;margin:11px auto 0;font-family:'Kanit';}
-  .inspo-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:11px;}
+  .colorblock{margin:18px 0 6px;}
+  .cb-head{font-family:'Kanit';font-weight:600;font-size:.98rem;margin:14px 0 2px;color:var(--lav-deep);}
+  .cb-head.bad{color:#b23a48;}
+  .cb-note{font-size:.82rem;color:var(--ink-soft);max-width:520px;margin:8px auto 0;}
 
+  .board-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;margin:18px auto 4px;
+    background:#e60023;color:#fff;border-radius:999px;padding:16px 34px;font-family:'Kanit';font-weight:600;font-size:1.08rem;
+    box-shadow:0 12px 30px -12px rgba(230,0,35,.6);transition:transform .15s, box-shadow .15s;}
+  .board-btn:hover{transform:translateY(-2px);box-shadow:0 18px 38px -12px rgba(230,0,35,.7);}
   .looks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:20px;}
   .look{border-radius:16px;overflow:hidden;background:#fff;box-shadow:var(--shadow);border:1px solid var(--line);display:flex;flex-direction:column;animation:rise .5s both;}
   .look .canvas{height:150px;position:relative;display:grid;place-items:center;}
@@ -174,19 +174,25 @@ const ICON512="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT
   .blessing .b-ico{font-size:1.6rem;}
   .blessing p{font-size:1.04rem;margin:7px auto 0;max-width:620px;color:var(--ink);}
 
-  /* support */
-  .support{background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px 22px;text-align:center;margin:16px 0 36px;box-shadow:var(--shadow);}
-  .support h2{font-family:'Kanit';font-weight:700;font-size:clamp(1.3rem,4vw,1.8rem);margin:0 0 7px;}
-  .support p.msg{font-size:.98rem;color:var(--ink-soft);max-width:560px;margin:0 auto 16px;}
-  .bank{display:inline-flex;flex-direction:column;gap:5px;align-items:center;background:#faf6ff;border:1px solid var(--line);border-radius:15px;padding:16px 24px;}
-  .bank .who{font-family:'Kanit';font-weight:500;}
-  .bank .acct{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;}
-  .bank .acct .no{font-family:'Kanit';font-size:1.4rem;font-weight:600;letter-spacing:1.5px;color:var(--lav-deep);}
-  .bank .label{font-size:.78rem;color:var(--ink-soft);}
-  .copy-btn{border:0;background:var(--lav-deep);color:#fff;border-radius:999px;padding:8px 16px;font-family:'Kanit';font-size:.84rem;cursor:pointer;}
+  /* support — intentionally small & modest */
+  .support{text-align:center;margin:10px 0 26px;padding:6px 18px;}
+  .sup-line{font-size:.86rem;color:var(--ink-soft);max-width:460px;margin:0 auto 10px;}
+  .bank{display:inline-flex;flex-direction:column;gap:3px;align-items:center;background:#faf7fc;border:1px solid var(--line);border-radius:13px;padding:11px 18px;}
+  .bank .who{font-family:'Kanit';font-weight:500;font-size:.9rem;}
+  .bank .acct{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:2px;}
+  .bank .acct .no{font-family:'Kanit';font-size:1.02rem;font-weight:600;letter-spacing:1px;color:var(--lav-deep);}
+  .bank .label{font-size:.72rem;color:var(--ink-soft);}
+  .copy-btn{border:0;background:var(--lav-deep);color:#fff;border-radius:999px;padding:6px 13px;font-family:'Kanit';font-size:.78rem;cursor:pointer;}
   .copy-btn:hover{filter:brightness(1.08);}
 
-  footer{text-align:center;padding:22px 18px 38px;color:var(--ink-soft);font-size:.8rem;font-family:'Kanit';}
+  /* dob in style module */
+  .dob-box{margin-top:14px;}
+  .dob-row{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:6px;}
+  .dob-row input[type=date]{max-width:200px;}
+  .ghost.solid{background:var(--lav-deep);color:#fff;border-color:var(--lav-deep);}
+  .ghost.solid:hover{filter:brightness(1.08);background:var(--lav-deep);}
+
+  footer{text-align:center;padding:18px 18px 36px;color:var(--ink-soft);font-size:.78rem;font-family:'Kanit';}
 
   @media (prefers-reduced-motion:reduce){*{animation:none!important}html{scroll-behavior:auto}}
 </style>
@@ -248,9 +254,15 @@ const ICON512="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT
       <h3><span class="ico">🧶</span><span data-i="m_style"></span></h3>
       <p class="opt-note" data-i="style_note"></p>
       <div class="chips" id="styleChips"></div>
+      <div class="dob-box">
+        <label class="lbl" data-i="dob_label"></label>
+        <div class="dob-row">
+          <input type="date" id="dobInput" max="2025-12-31">
+          <button class="ghost solid" onclick="recommendStyle()" data-i="reco_style"></button>
+        </div>
+      </div>
       <div class="row">
         <button class="ghost" onclick="randomStyle()" data-i="random_style"></button>
-        <button class="ghost" onclick="recommendStyle()" data-i="reco_style"></button>
       </div>
       <div class="reco" id="styleReco"></div>
     </div>
@@ -291,7 +303,7 @@ const ICON512="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT
       <h3><span class="ico">🪽</span><span data-i="m_angel"></span></h3>
       <p class="opt-note" data-i="angel_note"></p>
       <div class="angel-card" id="angelCard"></div>
-      <div class="row" style="justify-content:center;"><button class="ghost" onclick="rollAngel(true)" data-i="angel_redraw"></button></div>
+      <div class="row" style="justify-content:center;"><button class="ghost" onclick="rollAngel()" data-i="angel_redraw"></button></div>
     </div>
   </section>
 
@@ -303,23 +315,24 @@ const ICON512="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT
       <h2 class="display" id="vibeTitle"></h2>
       <p class="persona" id="personaText"></p>
       <div class="tags" id="vibeTags"></div>
-      <div class="palette-show" id="paletteShow"></div>
-      <div class="inspo">
-        <div class="inspo-frame"><div class="inspo-loading" id="inspoLoading"></div><img id="inspoImg" alt="inspiration look"></div>
-        <p class="inspo-cap" id="inspoCap"></p>
-        <div class="inspo-actions">
-          <button class="ghost" onclick="loadInspoImage()" id="inspoMoreBtn"></button>
-          <a class="pin-btn" id="inspoPin" target="_blank" rel="noopener"></a>
-        </div>
+
+      <div class="colorblock">
+        <div class="cb-head" data-i="cb_rec"></div>
+        <div class="palette-show big" id="recColors"></div>
+        <div class="cb-head bad" id="avoidHead" data-i="cb_avoid"></div>
+        <div class="palette-show big" id="avoidColors"></div>
+        <p class="cb-note" id="avoidNote"></p>
       </div>
+
+      <a class="board-btn" id="boardBtn" target="_blank" rel="noopener"></a>
+
       <div class="looks" id="looksGrid"></div>
       <div class="blessing"><div class="b-ico">✦</div><p id="blessingText"></p></div>
     </div>
   </section>
 
   <section class="support">
-    <h2 class="display" data-i="sup_title"></h2>
-    <p class="msg" id="supMsg"></p>
+    <p class="sup-line" id="supMsg"></p>
     <div class="bank">
       <div class="who">นางสาวสุพิชฌาย์ ลัทธิกุล</div>
       <div class="label">Bangkok Bank (BBL)</div>
@@ -350,33 +363,32 @@ const T={
     m_birth:'สีมงคลประจำวันเกิด', birth_pick:'คุณเกิดวันอะไร?',
     m_goal:'เป้าหมายวันนี้',
     m_style:'สไตล์ที่ชอบ',
-    style_note:'เลือกสไตล์ที่ใช่ หรือสุ่ม หรือให้แนะนำจากวันเกิด',
-    random_style:'🎲 สุ่มสไตล์', reco_style:'🎂 แนะนำจากวันเกิด',
-    m_vibe:'Vibes คาแรคเตอร์ที่ชอบ',
-    vibe_note:'กรอกชื่อคาแรคเตอร์เอง เลือกจากตัวเลือก หรือสุ่มก็ได้ (Disney · Marvel · Netflix · WB และอื่นๆ)',
-    vibe_ph:'พิมพ์ชื่อคาแรคเตอร์ที่ชอบ เช่น Hermione, Elsa...',
-    random_vibe:'🎲 สุ่มคาแรคเตอร์', clear_vibe:'ล้าง',
+    style_note:'เลือกสไตล์ที่ใช่ · สุ่ม · หรือกรอกวันเกิดแล้วให้ AI คำนวณสไตล์ให้',
+    random_style:'🎲 สุ่มสไตล์', reco_style:'✨ คำนวณจากวันเกิด',
+    dob_label:'กรอกวัน/เดือน/ปีเกิด แล้ว AI จะคำนวณสไตล์จากเลขชีวิตและราศี',
+    m_vibe:'Vibes คาแรคเตอร์/ดาราที่ชอบ',
+    vibe_note:'กรอกชื่อเอง เลือกจากตัวเลือก หรือสุ่ม · ดารา/นักร้อง ฝรั่ง ไทย จีน เกาหลี หรือตัวละครก็ได้',
+    vibe_ph:'พิมพ์ชื่อที่ชอบ เช่น Jennie, ญาญ่า, Zendaya...',
+    random_vibe:'🎲 สุ่ม', clear_vibe:'ล้าง',
     m_pc:'Personal Colour (โทนผิว)',
     pc_note:'อัปโหลดรูปหน้าตรงแสงธรรมชาติ เพื่อวิเคราะห์โทนผิวและซีซั่นแบบละเอียด (รูปอยู่ในเครื่องคุณ ไม่ถูกส่งไปไหน)',
     pc_drop:'📷 แตะเพื่อเลือกรูป / ถ่ายรูป',
     pc_manual:'หรือเลือกซีซั่นเอง (ระบบ 12 ซีซั่น)',
-    m_angel:'เทวดาประจำตัววันนี้', angel_note:'ทูตสวรรค์ที่จะอยู่เคียงข้างคุณวันนี้', angel_redraw:'✦ สุ่มใหม่',
+    m_angel:'เทวดาประจำตัววันนี้', angel_note:'สุ่มทูตสวรรค์ใหม่ทุกครั้งที่เปิดเว็บ', angel_redraw:'✦ สุ่มใหม่',
     cast:'✨ เสกลุคให้ฉันที', todays_vibe:'วันนี้ของคุณ',
-    sup_title:'ถ้าชอบ มาสนับสนุนกันได้นะ 💛',
-    sup_msg:'ถ้าเว็บนี้ทำให้วันของคุณสดใสขึ้น ชวนมาเลี้ยงกาแฟผู้จัดทำ เพื่อให้มีแรงสร้างสรรค์ช่องทางสนุกๆ เพิ่มขึ้นเรื่อยๆ ขอบคุณจากใจ ✨',
+    sup_msg:'ถ้าเว็บนี้ทำให้วันของคุณสดใสขึ้น เลี้ยงกาแฟผู้จัดทำได้นะคะ 💛',
     copy:'คัดลอกเลขบัญชี', copied:'คัดลอกแล้ว ✓',
     foot:'สร้างด้วยใจ ✦ ขอให้ทุกวันของคุณสวยและสดใส',
     pc_detected:'โทนผิวที่ตรวจพบ', pc_fail:'ตรวจไม่เจอผิวในรูปชัดเจน ลองรูปหน้าตรงแสงสว่าง หรือเลือกซีซั่นเองด้านล่าง',
-    pin:'ดูลุคบน Pinterest', view_board:'ดูบอร์ดเต็มบน Pinterest',
-    inspo_cap:'ภาพแรงบันดาลใจจริงที่ใกล้เคียงลุคของคุณ กด “ดูลุคอื่น” เพื่อเปลี่ยนภาพ',
-    inspo_more:'🔄 ดูลุคอื่น', inspo_loading:'กำลังเสกภาพลุค...',
-    inspo_fail:'โหลดภาพไม่สำเร็จ ลองกด “ดูลุคอื่น” อีกครั้ง หรือเปิดบอร์ดเต็มบน Pinterest',
+    pin:'ดูลุคบน Pinterest', view_board:'เปิดบอร์ดลุคเต็มบน Pinterest',
+    cb_rec:'🎨 สีที่แนะนำสำหรับคุณ', cb_avoid:'🚫 สีที่ควรเลี่ยง',
+    avoid_need:'อยากรู้สีที่ควรเลี่ยงแบบเฉพาะคุณ? อัปโหลดรูปหรือเลือกซีซั่นผิวในส่วน Personal Colour',
     warm:'อุ่น', cool:'เย็น', neutral:'กลาง', olive:'มะกอก',
     pc_under:'อันเดอร์โทน', pc_depth:'ความเข้มผิว', pc_best:'สีที่ใช่', pc_avoid:'สีที่ควรเลี่ยง',
     depthLabels:['ขาวมาก','ผิวขาว/สว่าง','ผิวสองสี','ผิวแทน','ผิวเข้ม'],
     conf_low:'(แสงในรูปอาจไม่พอ ลองรูปแสงธรรมชาติเพื่อความแม่นยำขึ้น)',
     cast_empty:'ยังไม่ได้เลือกอะไรเลย — งั้นออราเคิลขอเสกลุคเซอร์ไพรส์ให้นะ! ✨',
-    need_day:'เลือกวันเกิดด้านบนก่อนนะ แล้วออราเคิลจะแนะนำสไตล์ให้ ✦',
+    need_dob:'กรอกวันเกิด (วัน/เดือน/ปี) ก่อนนะ แล้ว AI จะคำนวณสไตล์ให้ ✦',
     reco_lead:'ออราเคิลแนะนำสไตล์'
   },
   en:{
@@ -390,33 +402,32 @@ const T={
     m_birth:'Lucky colour by birthday', birth_pick:'Which day were you born?',
     m_goal:"Today's goal",
     m_style:'Style you love',
-    style_note:'Pick a style, shuffle, or let it be recommended from your birthday',
-    random_style:'🎲 Random style', reco_style:'🎂 Recommend from birthday',
-    m_vibe:'Vibes — favourite character',
-    vibe_note:'Type a character, pick one, or shuffle (Disney · Marvel · Netflix · WB and more)',
-    vibe_ph:'Type a character you love, e.g. Hermione, Elsa...',
-    random_vibe:'🎲 Random character', clear_vibe:'Clear',
+    style_note:'Pick a style · shuffle · or enter your birthday and let AI calculate it',
+    random_style:'🎲 Random style', reco_style:'✨ Calculate from birthday',
+    dob_label:'Enter your date of birth — AI computes a style from your life-path number & zodiac',
+    m_vibe:'Vibes — favourite star / character',
+    vibe_note:'Type your own, pick one, or shuffle · stars & singers from the West, Thailand, China, Korea, or any character',
+    vibe_ph:'Type a name you love, e.g. Jennie, Zendaya, Yaya...',
+    random_vibe:'🎲 Random', clear_vibe:'Clear',
     m_pc:'Personal Colour (skin tone)',
     pc_note:'Upload a front-facing photo in natural light for a detailed tone + season read (the photo stays on your device).',
     pc_drop:'📷 Tap to choose / take a photo',
     pc_manual:'Or pick your season (12-season system)',
-    m_angel:'Your angel for today', angel_note:'The guardian by your side today', angel_redraw:'✦ Draw again',
+    m_angel:'Your angel for today', angel_note:'A fresh angel drawn at random every visit', angel_redraw:'✦ Draw again',
     cast:'✨ Cast my look', todays_vibe:'Your day',
-    sup_title:'Loved it? Support the maker 💛',
-    sup_msg:'If this brightened your day, buy the maker a coffee so more playful little corners like this can keep being created. Thank you from the heart ✨',
+    sup_msg:'If this brightened your day, you’re welcome to buy the maker a coffee 💛',
     copy:'Copy account number', copied:'Copied ✓',
     foot:'Made with heart ✦ may your every day be bright and beautiful',
     pc_detected:'Detected tone', pc_fail:"Couldn't clearly detect skin. Try a front-facing shot in good light, or pick a season below.",
-    pin:'See looks on Pinterest', view_board:'See full board on Pinterest',
-    inspo_cap:'A real inspiration shot close to your look. Tap “Show another look” to swap it.',
-    inspo_more:'🔄 Show another look', inspo_loading:'Conjuring a look...',
-    inspo_fail:'Couldn’t load the image — tap “Show another look”, or open the full Pinterest board.',
+    pin:'See looks on Pinterest', view_board:'Open the full look board on Pinterest',
+    cb_rec:'🎨 Colours that suit you', cb_avoid:'🚫 Go easy on these',
+    avoid_need:'Want your personal “avoid” colours? Upload a photo or pick your skin season in Personal Colour.',
     warm:'warm', cool:'cool', neutral:'neutral', olive:'olive',
     pc_under:'Undertone', pc_depth:'Depth', pc_best:'Your colours', pc_avoid:'Go easy on',
     depthLabels:['Very fair','Fair / light','Medium','Tan','Deep'],
     conf_low:'(lighting may be low — try natural light for more accuracy)',
     cast_empty:'You picked nothing yet — so the oracle will conjure a surprise look! ✨',
-    need_day:'Pick your birthday above first, then the oracle will recommend a style ✦',
+    need_dob:'Enter your date of birth first, then AI will calculate your style ✦',
     reco_lead:'Oracle recommends'
   }
 };
@@ -507,28 +518,62 @@ const DAY_STYLE=[
   {id:'edgy',th:'ม่วงวันเสาร์ลึกลับมีเสน่ห์ เข้ากับลุคเท่ๆ เอดจี้',en:'Saturday’s mysterious purple fits a cool, edgy look'}
 ];
 
-const SRC={Disney:'🏰 Disney',Marvel:'🦸 Marvel',Netflix:'🎬 Netflix',WB:'🎞️ WB'};
+/* numerology life-path number -> recommended style + reason */
+const LIFEPATH_STYLE={
+  1:{id:'street',th:'เป็นผู้นำ กล้าและเป็นตัวของตัวเอง เหมาะกับลุคสตรีทที่โดดเด่นไม่ตามใคร',en:'a bold, independent leader — a standout street look fits you'},
+  2:{id:'cottagecore',th:'อ่อนโยน ประนีประนอม รักความสงบ เหมาะกับคอตเทจคอร์ที่นุ่มนวล',en:'gentle and harmonious — soft cottagecore suits your calm heart'},
+  3:{id:'y2k',th:'สร้างสรรค์ ช่างแสดงออก สนุกสนาน เหมาะกับ Y2K สีสันขี้เล่น',en:'creative and expressive — playful Y2K colour matches your spark'},
+  4:{id:'smartcasual',th:'มั่นคง เป็นระเบียบ น่าเชื่อถือ เหมาะกับสมาร์ทแคชชวลเรียบเนี้ยบ',en:'grounded and dependable — tidy smart-casual fits your structure'},
+  5:{id:'outdoor',th:'รักอิสระ ชอบผจญภัย เหมาะกับลุคเอาต์ดอร์คล่องตัวพร้อมลุย',en:'free-spirited adventurer — versatile outdoor style fits your energy'},
+  6:{id:'preppy',th:'อบอุ่น ดูแลคนอื่น รักความงาม เหมาะกับเพรพปี้สะอาดตาอบอุ่น',en:'warm and nurturing — clean preppy charm suits you'},
+  7:{id:'darkacademia',th:'ลึกซึ้ง ช่างคิด รักการเรียนรู้ เหมาะกับดาร์กอะคาเดเมีย',en:'deep and thoughtful — dark academia matches your inner world'},
+  8:{id:'oldmoney',th:'ทะเยอทะยาน มีบารมี เหมาะกับโอลด์มันนี่ที่ดูแพงเงียบๆ',en:'ambitious and powerful — quiet-luxury old money suits you'},
+  9:{id:'boho',th:'มีอุดมคติ ใจกว้าง สายอาร์ต เหมาะกับโบโฮพลิ้วไหวอิสระ',en:'idealistic and artistic — free-flowing boho fits your soul'},
+  11:{id:'glam',th:'วิสัยทัศน์สูง มีออร่าพิเศษ เหมาะกับกลามที่เปล่งประกาย',en:'a visionary with a rare aura — radiant glam is your stage'},
+  22:{id:'formal',th:'นักสร้างตัวจริง เหมาะกับลุคทางการที่สง่างามทรงพลัง',en:'a master builder — powerful, polished formal style fits you'},
+  33:{id:'minimal',th:'ใจดีและเป็นที่พึ่ง เหมาะกับมินิมอลที่สงบและจริงใจ',en:'a caring guide — serene minimalism reflects your spirit'}
+};
+const ZODIAC=[ /* [month(1-12), upToDay], name */
+  {th:'มังกร',en:'Capricorn',until:[1,19]},{th:'กุมภ์',en:'Aquarius',until:[2,18]},
+  {th:'มีน',en:'Pisces',until:[3,20]},{th:'เมษ',en:'Aries',until:[4,19]},
+  {th:'พฤษภ',en:'Taurus',until:[5,20]},{th:'เมถุน',en:'Gemini',until:[6,20]},
+  {th:'กรกฎ',en:'Cancer',until:[7,22]},{th:'สิงห์',en:'Leo',until:[8,22]},
+  {th:'กันย์',en:'Virgo',until:[9,22]},{th:'ตุลย์',en:'Libra',until:[10,22]},
+  {th:'พิจิก',en:'Scorpio',until:[11,21]},{th:'ธนู',en:'Sagittarius',until:[12,21]},
+  {th:'มังกร',en:'Capricorn',until:[12,31]}];
+const SRC={West:'🌎 ฝรั่ง',Korea:'🇰🇷 เกาหลี',Thai:'🇹🇭 ไทย',China:'🇨🇳 จีน',Char:'🎬 ตัวละคร'};
+const SRC_EN={West:'🌎 West',Korea:'🇰🇷 Korea',Thai:'🇹🇭 Thai',China:'🇨🇳 China',Char:'🎬 Character'};
+/* style icons — referenced for fashion aesthetic / inspiration only */
 const VIBES=[
-  {id:'elsa',name:'Elsa',src:'Disney',aesTh:'กลามน้ำแข็ง เงินฟ้า คริสตัล',aesEn:'icy glam, silver-blue crystalline',palette:['#A0D8F1','#D6E6F2','#E8F4FA','#B8C6E0'],kw:'elsa frozen icy blue elegant'},
-  {id:'mulan',name:'Mulan',src:'Disney',aesTh:'นักรบสง่างาม แดง-หยก โครงสร้างคม',aesEn:'warrior-elegant, red & jade, structured',palette:['#B5132B','#2E7D5B','#E8C24B','#1F2A38'],kw:'mulan red jade warrior elegant outfit'},
-  {id:'cruella',name:'Cruella',src:'Disney',aesTh:'พังก์กูตูร์ ขาว-ดำ ดราม่า',aesEn:'punk couture, black & white drama',palette:['#0E0E0E','#F5F5F5','#B3122B','#7A7A7A'],kw:'cruella black white punk couture outfit'},
-  {id:'belle',name:'Belle',src:'Disney',aesTh:'โรแมนติกนักอ่าน ทอง-ฟ้า',aesEn:'bookish romantic, gold & blue',palette:['#E9BF63','#2D6CB5','#F3E3B8','#8C6A2B'],kw:'belle yellow gold romantic dress outfit'},
-  {id:'moana',name:'Moana',src:'Disney',aesTh:'นักผจญภัยเกาะ เอิร์ธ-เทอร์ควอยซ์',aesEn:'island adventurer, earth & teal',palette:['#C9762F','#1F9E9E','#E4C58C','#3E5641'],kw:'island adventurer earthy teal outfit'},
-  {id:'blackwidow',name:'Black Widow',src:'Marvel',aesTh:'แทกติคอลเฉียบ ดำล้วน',aesEn:'sleek tactical, all-black',palette:['#141414','#3A3A3A','#7A1F2B','#9A9A9A'],kw:'black widow tactical all black outfit'},
-  {id:'loki',name:'Loki',src:'Marvel',aesTh:'เจ้าเล่ห์สง่างาม เขียว-ทอง สูทโครงสร้าง',aesEn:'regal mischief, green & gold tailoring',palette:['#1E5C3A','#C9A24B','#1B1B2E','#2E7D5B'],kw:'loki green gold tailored regal outfit'},
-  {id:'scarletwitch',name:'Scarlet Witch',src:'Marvel',aesTh:'โบโฮดราม่า แดงเลือดหมู',aesEn:'dramatic boho, crimson',palette:['#7A1F2B','#B3122B','#3A2E22','#C99E8C'],kw:'scarlet witch crimson boho dramatic outfit'},
-  {id:'captain',name:'Captain America',src:'Marvel',aesTh:'คลาสสิกอเมริกานา น้ำเงิน-ขาว',aesEn:'clean Americana, navy & white',palette:['#1F3A93','#C0392B','#F5F5FA','#2C2C54'],kw:'navy americana clean classic outfit'},
-  {id:'spiderman',name:'Spider-Man',src:'Marvel',aesTh:'สปอร์ตลำลอง แดง-น้ำเงิน',aesEn:'sporty everyday, red & blue',palette:['#C0392B','#1E6FB5','#2B2B2B','#E0E0E0'],kw:'red blue casual sporty everyday outfit'},
-  {id:'wednesday',name:'Wednesday',src:'Netflix',aesTh:'โกธิคเพรพ ดำล้วน คอเชิ้ตคม',aesEn:'gothic prep, all-black sharp collars',palette:['#0E0E0E','#2B2B2B','#7A7A7A','#F5F5F5'],kw:'wednesday addams gothic black prep outfit'},
-  {id:'eleven',name:'Eleven',src:'Netflix',aesTh:'เรโทรยุค 80 เพรพ-ทอมบอย',aesEn:'80s retro, prep-meets-tomboy',palette:['#E0A33E','#3E7C59','#C0392B','#E4D2B0'],kw:'stranger things 80s retro outfit'},
-  {id:'geralt',name:'Geralt',src:'Netflix',aesTh:'แฟนตาซีดิบ หนัง-ถ่าน',aesEn:'rugged fantasy, leather & charcoal',palette:['#2B2B2B','#5A4633','#7A7A7A','#3A3A3A'],kw:'witcher rugged leather dark fantasy outfit'},
-  {id:'tommy',name:'Tommy Shelby',src:'Netflix',aesTh:'ยุค 1920 สูททวีตสามชิ้น',aesEn:'1920s tweed three-piece tailoring',palette:['#3A4658','#6E5B43','#8C8577','#1F2A38'],kw:'peaky blinders 1920s tweed three piece outfit'},
-  {id:'daphne',name:'Daphne',src:'Netflix',aesTh:'รีเจนซีคอร์ พาสเทลหวาน',aesEn:'regencycore, sweet pastels',palette:['#A8C7E8','#F4B8C8','#EDE3C8','#C9B6E4'],kw:'bridgerton regencycore pastel gown outfit'},
-  {id:'hermione',name:'Hermione',src:'WB',aesTh:'ดาร์กอะคาเดเมีย ทวีต วิชาการ',aesEn:'dark academia, tweed, scholarly',palette:['#3A2E22','#6E5B43','#8C7B5A','#5B2333'],kw:'dark academia tweed scholarly outfit'},
-  {id:'harley',name:'Harley Quinn',src:'WB',aesTh:'พังก์วุ่นวาย สีชนกันจัดจ้าน',aesEn:'punk chaos, clashing brights',palette:['#E8348B','#1E6FB5','#0E0E0E','#F2C94C'],kw:'harley quinn punk colorful clash outfit'},
-  {id:'barbie',name:'Barbie',src:'WB',aesTh:'บาร์บี้คอร์ ชมพูจัดเต็มขี้เล่น',aesEn:'Barbiecore, all-pink playful',palette:['#FF4FA3','#FF8FC4','#FFD1E8','#E0115F'],kw:'barbiecore hot pink playful outfit'},
-  {id:'aragorn',name:'Aragorn',src:'WB',aesTh:'เรนเจอร์ลุยป่า เอิร์ธโทนเลเยอร์',aesEn:'rugged ranger, earthy layers',palette:['#3E5641','#6E5B43','#5B6E7A','#A8843B'],kw:'ranger earthy layered rugged outfit'},
-  {id:'wonderwoman',name:'Wonder Woman',src:'WB',aesTh:'ฮีโร่สง่างาม แดง-ทอง-น้ำเงิน',aesEn:'heroic regal, red-gold-blue',palette:['#B3122B','#D4AF37','#1F3A93','#7A1F2B'],kw:'red gold blue powerful heroic outfit'}
+  /* West */
+  {id:'zendaya',name:'Zendaya',src:'West',aesTh:'เรดคาร์เพตสายชาเมเลียน ทรงคมมั่นใจ',aesEn:'chameleon red-carpet, bold confident tailoring',palette:['#7A1F2B','#1F2A38','#D4AF37','#E8E8F0'],kw:'Zendaya red carpet bold chic outfit'},
+  {id:'harrystyles',name:'Harry Styles',src:'West',aesTh:'genderfluid แม็กซิมัลลิสต์ ลายและสีจัดเต็ม',aesEn:'genderfluid maximalist, bold prints & colour',palette:['#E84545','#F2C94C','#1E6FB5','#E8D9F0'],kw:'Harry Styles genderfluid bold print outfit'},
+  {id:'timothee',name:'Timothée Chalamet',src:'West',aesTh:'เมนส์แวร์โมเดิร์น เฉียบทดลอง',aesEn:'modern menswear, sleek & experimental',palette:['#1B1B2E','#7A7A7A','#C0392B','#D8CCB4'],kw:'Timothee Chalamet modern menswear outfit'},
+  {id:'rihanna',name:'Rihanna',src:'West',aesTh:'สตรีท-ลักซ์ กล้าและเซ็กซี่',aesEn:'street-luxe, daring and bold',palette:['#0E0E0E','#B3122B','#C9A24B','#7A7A7A'],kw:'Rihanna street luxe daring outfit'},
+  {id:'haileyb',name:'Hailey Bieber',src:'West',aesTh:'โมเดลออฟดิวตี้ มินิมอลคลีน',aesEn:'off-duty model, clean minimal',palette:['#2B2B2B','#C9C2B5','#E8E2D8','#8A8378'],kw:'Hailey Bieber off duty minimal outfit'},
+  {id:'taylorswift',name:'Taylor Swift',src:'West',aesTh:'วินเทจ-เพรพ คาร์ดิแกนคอตเทจ',aesEn:'vintage-prep, cardigan cottage',palette:['#9CB07A','#E7D3A1','#B5733B','#F3EAD3'],kw:'Taylor Swift vintage prep cottage outfit'},
+  {id:'billie',name:'Billie Eilish',src:'West',aesTh:'สตรีทโอเวอร์ไซส์ จนถึงกลามนัวร์',aesEn:'oversized street to noir glam',palette:['#141414','#39C16C','#3A3A3A','#9A9A9A'],kw:'Billie Eilish oversized street outfit'},
+  /* Korea */
+  {id:'jennie',name:'Jennie',src:'Korea',aesTh:'ชิคหรู สาวสายลักชัวรี',aesEn:'chic luxe, refined girl-crush',palette:['#0E0E0E','#C9A24B','#F5F5F5','#7A1F2B'],kw:'Jennie Blackpink chic luxe outfit'},
+  {id:'lisa',name:'Lisa',src:'Korea',aesTh:'ไฮแฟชั่นสตรีทขี้เล่น',aesEn:'playful high-fashion street',palette:['#E8348B','#1B1B1B','#F2C94C','#E0E0E0'],kw:'Lisa Blackpink high fashion street outfit'},
+  {id:'rose',name:'Rosé',src:'Korea',aesTh:'มินิมอลชิคแบบไม่พยายาม',aesEn:'effortless minimal chic',palette:['#E8E2D8','#C9B6A8','#2B2B2B','#A89A8C'],kw:'Rose Blackpink effortless minimal outfit'},
+  {id:'iu',name:'IU',src:'Korea',aesTh:'อ่อนหวานสง่างาม โทนละมุน',aesEn:'soft feminine elegance',palette:['#F4B8C8','#EDE3C8','#C9B6E4','#FBE6D6'],kw:'IU soft feminine elegant outfit'},
+  {id:'taehyung',name:'V (Kim Taehyung)',src:'Korea',aesTh:'คลาสสิกสง่างาม เหนือกาลเวลา',aesEn:'timeless classic elegance',palette:['#1F2A38','#6E5B43','#C9CDD6','#8C7B5A'],kw:'Kim Taehyung V BTS classic elegant outfit'},
+  {id:'jungkook',name:'Jungkook',src:'Korea',aesTh:'สตรีทลำลองเท่ๆ',aesEn:'casual cool street',palette:['#1B1B1B','#3A3A3A','#C9C9C9','#5A5A66'],kw:'Jungkook BTS casual street outfit'},
+  {id:'gdragon',name:'G-Dragon',src:'Korea',aesTh:'ไอคอนสตรีทอาวองการ์ด',aesEn:'avant-garde street icon',palette:['#0E0E0E','#E84545','#F2C94C','#7B2FF7'],kw:'G-Dragon avant garde street outfit'},
+  /* Thai */
+  {id:'davika',name:'Davika (ใหม่)',src:'Thai',aesTh:'กลามสง่างาม สวยคม',aesEn:'elegant glam, striking',palette:['#7A1F2B','#1B1B2E','#D4AF37','#E8D9F0'],kw:'Davika Hoorne elegant glam outfit'},
+  {id:'yaya',name:'Urassaya (ญาญ่า)',src:'Thai',aesTh:'หรูสง่า ดูแพงเป็นธรรมชาติ',aesEn:'graceful luxe, natural elegance',palette:['#C9B89A','#E6DFD2','#3A4A3A','#6E5B43'],kw:'Urassaya Yaya graceful luxe outfit'},
+  {id:'baifern',name:'Baifern (ใบเฟิร์น)',src:'Thai',aesTh:'หวานชิค สดใสทันสมัย',aesEn:'sweet chic, fresh & modern',palette:['#F4B8C8','#FBE6D6','#A8C7E8','#EDE3C8'],kw:'Baifern Pimchanok sweet chic outfit'},
+  {id:'bright',name:'Bright (ไบร์ท)',src:'Thai',aesTh:'สมาร์ทแคชชวลวัยรุ่น เท่สะอาด',aesEn:'youthful smart-casual, clean cool',palette:['#46566B','#A7B0BD','#1F2A38','#D7CDBD'],kw:'Bright Vachirawit smart casual outfit'},
+  /* China */
+  {id:'dilraba',name:'Dilraba',src:'China',aesTh:'อีเทอเรียลสง่างาม ละมุนหรู',aesEn:'ethereal elegance, soft luxe',palette:['#F4B8C8','#E8D9F0','#C9A24B','#FBE6D6'],kw:'Dilraba Dilmurat ethereal elegant outfit'},
+  {id:'liuyifei',name:'Liu Yifei',src:'China',aesTh:'คลาสสิกสง่างาม เรียบหรู',aesEn:'graceful classic, quiet luxe',palette:['#1F2A38','#C9B89A','#E6DFD2','#6E5B43'],kw:'Liu Yifei graceful classic elegant outfit'},
+  {id:'xiaozhan',name:'Xiao Zhan',src:'China',aesTh:'เมนส์แวร์เนี้ยบ สง่างามอ่อนโยน',aesEn:'refined menswear, gentle elegance',palette:['#1B1B2E','#8C7B5A','#C9CDD6','#3A4658'],kw:'Xiao Zhan refined elegant menswear outfit'},
+  {id:'wangyibo',name:'Wang Yibo',src:'China',aesTh:'สตรีทมอเตอร์ เท่ดิบ',aesEn:'moto street, cool & edgy',palette:['#0E0E0E','#3A3A3A','#E84545','#9A9A9A'],kw:'Wang Yibo moto street cool outfit'},
+  /* Current characters */
+  {id:'wednesday',name:'Wednesday',src:'Char',aesTh:'โกธิคเพรพ ดำล้วน คอเชิ้ตคม',aesEn:'gothic prep, all-black sharp collars',palette:['#0E0E0E','#2B2B2B','#7A7A7A','#F5F5F5'],kw:'Wednesday Addams gothic black prep outfit'},
+  {id:'barbie',name:'Barbie',src:'Char',aesTh:'บาร์บี้คอร์ ชมพูจัดเต็มขี้เล่น',aesEn:'Barbiecore, all-pink playful',palette:['#FF4FA3','#FF8FC4','#FFD1E8','#E0115F'],kw:'Barbiecore hot pink playful outfit'}
 ];
 
 /* 12-season system (Sci\ART). desc/avoid researched & paraphrased. */
@@ -581,6 +626,21 @@ const SEASONS={
     palette:['#0047AB','#E0115F','#00B5B8','#7B2FF7','#101018'],
     desc:{th:'เย็นอมกลางแต่สีจัดสดมาก โทนคอบอลต์ ชมพูจี๊ด เขียวมรกตสด ม่วงไฟฟ้า',en:'Cool-neutral but very high-clarity — cobalt, hot pink, jewel emerald, electric purple.'},
     avoid:{th:'เลี่ยงสีหม่นมัวและพาสเทลซีด',en:'Avoid muted, washed-out pastels.'}}
+};
+/* expanded recommended (best) + avoid (bad) swatch sets per season */
+const SEASON_COLORS={
+  light_spring:{best:['#FFD6A5','#FFB4A2','#FF9E7A','#FCE38A','#B5E2C0','#7FD1C1','#FFC6C0','#E8C8A0','#FF8FA3','#9FE0E6'],bad:['#0E0E0E','#2C2C54','#5A5A66','#7A1F2B','#1F3A93','#8A8FA3']},
+  true_spring:{best:['#FF8C42','#FFC845','#FF6F61','#6CCF6C','#2EC4B6','#FF7FA3','#F3E3B8','#C89B5A','#E84545','#B7D84B'],bad:['#9DAEC2','#5A5A66','#0E0E0E','#B7A7C0','#2C2C54','#C9C2B5']},
+  bright_spring:{best:['#FF5E5B','#FFD23F','#1FCFA8','#16A6E9','#FF8FB1','#F0322E','#27D3C4','#B7D84B','#7C8CF0','#F5EFD6'],bad:['#9C7E5B','#C9A9A6','#8A8378','#6E8B3D','#A79277','#7A7A7A']},
+  light_summer:{best:['#BFD7EA','#D7C0E0','#F6C9D9','#BFE3D6','#C7CBEC','#E8B8CC','#A9D4CE','#D8C2E8','#A8C7E8','#AEBBD0'],bad:['#F2994A','#E0A33E','#0E0E0E','#8C5A2B','#C0392B','#A8843B']},
+  true_summer:{best:['#7FA6C9','#B58DC9','#E68FB0','#6FBFB0','#9AA7D6','#B98AA8','#7FB8C4','#9A6E8E','#8A9BB5','#C46A8E'],bad:['#F2994A','#E0A33E','#D7CDBD','#C0392B','#C9A24B','#B5733B']},
+  soft_summer:{best:['#9DAEC2','#B7A7C0','#A7B6A0','#C9A9A6','#8A94A3','#7FA0A0','#C2B2CE','#9A8298','#C9B0B0','#8FA3B8'],bad:['#F2994A','#39C16C','#0E0E0E','#FFD23F','#C0392B','#FF4FA3']},
+  soft_autumn:{best:['#C2A878','#A79277','#8C9A6B','#C99E8C','#C89B5A','#9CA06B','#BC7B5A','#A89580','#E4CF9A','#7E9080'],bad:['#A0D8F1','#E0115F','#FFFFFF','#0E0E0E','#0047AB','#7B2FF7']},
+  true_autumn:{best:['#C9762F','#B5523B','#6E8B3D','#D7A24C','#A8431F','#3F5130','#8C4A22','#C9A227','#8A6A2B','#2E7D6E'],bad:['#F6C9D9','#A0D8F1','#FFFFFF','#E0115F','#D7C0E0','#7C8CF0']},
+  deep_autumn:{best:['#5C4326','#2F4A2F','#7A3B1E','#A8762B','#5B2E33','#3F5130','#8C3A1E','#8A6A2B','#1E5C52','#C9902B'],bad:['#F6C9D9','#BFD7EA','#D8CFC4','#FBE6D6','#D7C0E0','#C7CBEC']},
+  deep_winter:{best:['#1B1F3B','#5A1B33','#0E5C5C','#101018','#F5F5FA','#3A1F5C','#A8132B','#A9D6E5','#8A1F5C','#2C2C54'],bad:['#8C5A2B','#A79277','#F2994A','#D7CDBD','#C89B5A','#9C7E5B']},
+  true_winter:{best:['#1F3A93','#C0392B','#0E7C86','#F5F5FA','#101018','#2C2C9E','#E0115F','#0E5C3A','#F6C9D9','#0047AB'],bad:['#A79277','#D7CDBD','#F2994A','#C9A24B','#C89B5A','#8A6A2B']},
+  bright_winter:{best:['#0047AB','#E0115F','#00B5B8','#7B2FF7','#F0322E','#A9D6E5','#16C0C0','#D4006A','#EDEA6B','#101018'],bad:['#C9A9A6','#8A8378','#6E8B3D','#D7CDBD','#A79277','#9DAEC2']}
 };
 const SEASON_GROUPS={Spring:['light_spring','true_spring','bright_spring'],
   Summer:['light_summer','true_summer','soft_summer'],
@@ -647,9 +707,10 @@ function buildChips(arr,id,key){
 }
 function buildVibeChips(){
   const c=document.getElementById('vibeChips');c.innerHTML='';
+  const SR=isTh()?SRC:SRC_EN;
   VIBES.forEach(v=>{
     const el=document.createElement('div');el.className='chip'+(state.vibeId===v.id?' sel':'');
-    el.innerHTML=v.name+'<span class="src">'+SRC[v.src]+'</span>';
+    el.innerHTML=v.name+'<span class="src">'+SR[v.src]+'</span>';
     el.onclick=()=>{
       if(state.vibeId===v.id){state.vibeId=null;}
       else{state.vibeId=v.id;state.vibeCustom=null;document.getElementById('vibeInput').value='';}
@@ -666,12 +727,30 @@ function onVibeType(){
 function clearVibe(){state.vibeId=null;state.vibeCustom=null;document.getElementById('vibeInput').value='';buildVibeChips();}
 function randomVibe(){const v=VIBES[Math.floor(Math.random()*VIBES.length)];state.vibeId=v.id;state.vibeCustom=null;document.getElementById('vibeInput').value='';buildVibeChips();}
 function randomStyle(){const s=STYLES[Math.floor(Math.random()*STYLES.length)];state.style=s.id;buildChips(STYLES,'styleChips','style');hideReco();}
+function lifePath(y,m,d){
+  const reduce=n=>{while(n>9&&n!==11&&n!==22&&n!==33){n=String(n).split('').reduce((a,c)=>a+(+c),0);}return n;};
+  return reduce(reduce(y)+reduce(m)+reduce(d));
+}
+function zodiacOf(m,d){for(const z of ZODIAC){if(m<z.until[0]||(m===z.until[0]&&d<=z.until[1]))return z;}return ZODIAC[ZODIAC.length-1];}
 function recommendStyle(){
   const r=document.getElementById('styleReco');
-  if(state.day===null){r.textContent=T[LANG].need_day;r.classList.add('show');return;}
-  const rec=DAY_STYLE[state.day];state.style=rec.id;buildChips(STYLES,'styleChips','style');
+  const val=document.getElementById('dobInput').value;
+  if(!val){r.textContent=T[LANG].need_dob;r.classList.add('show');return;}
+  const dt=new Date(val+'T00:00:00');
+  const y=dt.getFullYear(),m=dt.getMonth()+1,d=dt.getDate(),wd=dt.getDay();
+  // sync weekday lucky colour
+  state.day=wd;const sel=document.getElementById('daySelect');if(sel)sel.value=wd;updateLuck();
+  const lp=lifePath(y,m,d);const z=zodiacOf(m,d);
+  const rec=LIFEPATH_STYLE[lp]||LIFEPATH_STYLE[9];
+  state.style=rec.id;buildChips(STYLES,'styleChips','style');
   const s=STYLES.find(x=>x.id===rec.id);
-  r.innerHTML=`<b>${T[LANG].reco_lead}: ${s.emoji} ${s[LANG]}</b><br>${rec[LANG]}`;
+  const dateStr=isTh()?`${d} ${['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'][m-1]} ${y} (วัน${DAYS.th[wd]})`
+                      :`${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1]} ${d}, ${y} (${DAYS.en[wd]})`;
+  const calc=isTh()?`วันเกิด ${dateStr} · เลขชีวิต <b>${lp}</b> · ราศี${z.th}`
+                   :`Born ${dateStr} · life-path <b>${lp}</b> · ${z.en}`;
+  r.innerHTML=`<div style="font-size:.8rem;color:var(--ink-soft);margin-bottom:5px">${calc}</div>`+
+    `<b>${T[LANG].reco_lead}: ${s.emoji} ${s[LANG]}</b><br>`+
+    (isTh()?`เลขชีวิต ${lp} บอกว่าคุณ${rec.th}`:`Life-path ${lp} says you’re ${rec.en}.`);
   r.classList.add('show');
 }
 function hideReco(){document.getElementById('styleReco').classList.remove('show');}
@@ -708,12 +787,13 @@ function renderSeasonSwatches(){
 }
 
 /* ============ ANGEL ============ */
-function rollAngel(random){
-  let idx;
-  if(random)idx=Math.floor(Math.random()*ANGELS.length);
-  else{const t=new Date();idx=(t.getFullYear()*1000+Math.floor((t-new Date(t.getFullYear(),0,0))/86400000))%ANGELS.length;}
-  state.angel=ANGELS[idx];const a=state.angel;
+function renderAngel(){
+  const a=state.angel;if(!a)return;
   document.getElementById('angelCard').innerHTML=`<div class="ang-emoji">${a.emoji}</div><div class="ang-name">${a.name}</div><div class="ang-msg">${a[LANG]}</div>`;
+}
+function rollAngel(){
+  state.angel=ANGELS[Math.floor(Math.random()*ANGELS.length)];
+  renderAngel();
 }
 
 /* ============ PHOTO / 12-SEASON ============ */
@@ -810,25 +890,6 @@ function buildPinQuery(extra){
   if(!parts.length)parts.push('aesthetic outfit inspiration');
   return encodeURIComponent(parts.join(' ').replace(/\s+/g,' ').trim());
 }
-function buildFlickrTags(){
-  const tags=['fashion','outfit','ootd','style'];
-  const gen=GENDER.find(x=>x.id===state.gender),mood=MOODS.find(m=>m.id===state.mood),goal=GOALS.find(g=>g.id===state.goal),style=STYLES.find(s=>s.id===state.style),v=resolveVibe();
-  [gen,mood,goal,style].forEach(o=>{if(o)tags.push(...o.kw.split(' '));});
-  if(v)tags.push(...v.kw.split(' '));
-  if(state.season)tags.push(SEASONS[state.season].group.toLowerCase());
-  const seen={},out=[];tags.forEach(t=>{t=t.replace(/[^a-z]/gi,'').toLowerCase();if(t&&!seen[t]){seen[t]=1;out.push(t);}});
-  return out.slice(0,6).join(',');
-}
-let inspoCount=0;
-function loadInspoImage(){
-  inspoCount++;const tags=buildFlickrTags();
-  const img=document.getElementById('inspoImg'),loading=document.getElementById('inspoLoading');
-  img.classList.remove('show');loading.style.display='grid';loading.innerHTML=`<div><div class="spin"></div>${T[LANG].inspo_loading}</div>`;
-  const url=`https://loremflickr.com/480/600/${tags}?lock=${Date.now()+inspoCount}`;
-  img.onload=()=>{img.classList.add('show');loading.style.display='none';};
-  img.onerror=()=>{loading.style.display='grid';loading.innerHTML=T[LANG].inspo_fail;img.classList.remove('show');};
-  img.src=url;
-}
 
 /* ============ CAST ============ */
 function pickPersona(){
@@ -836,7 +897,7 @@ function pickPersona(){
   return PERSONAS[Math.floor(Math.random()*PERSONAS.length)];
 }
 function castSpell(){
-  const t=T[LANG];if(!state.angel)rollAngel(false);
+  const t=T[LANG];if(!state.angel)rollAngel();
   const vibe=resolveVibe();const style=STYLES.find(s=>s.id===state.style);
 
   let title = vibe?(isTh()?`โหมด ${vibe.name} ✦`:`${vibe.name} mode ✦`)
@@ -846,8 +907,9 @@ function castSpell(){
 
   let pText;
   if(vibe){
+    const SR=isTh()?SRC:SRC_EN;
     pText = vibe.custom ? (isTh()?`วันนี้คุณให้ฟีลแบบ ${vibe.name} — เสกลุคในแบบที่คุณรัก`:`Today you’re channeling ${vibe.name} — styled your way.`)
-                       : (isTh()?`วันนี้คุณให้ฟีลแบบ ${vibe.name} (${vibe.src}) — ${vibe.aesTh}`:`Channeling ${vibe.name} (${vibe.src}) — ${vibe.aesEn}`);
+                       : (isTh()?`วันนี้คุณให้ฟีลแบบ ${vibe.name} (${SR[vibe.src]}) — ${vibe.aesTh}`:`Channeling ${vibe.name} (${SR[vibe.src]}) — ${vibe.aesEn}`);
   } else { pText=pickPersona()[LANG]; }
   if(style)pText += isTh()?` ผสานสไตล์${style.th}`:` with a ${style.en.toLowerCase()} twist`;
   document.getElementById('personaText').textContent=pText;
@@ -858,20 +920,27 @@ function castSpell(){
   if(state.mood){const o=MOODS.find(x=>x.id===state.mood);addTag(o.emoji,o[LANG]);}
   if(state.goal){const o=GOALS.find(x=>x.id===state.goal);addTag(o.emoji,o[LANG]);}
   if(style)addTag(style.emoji,style[LANG]);
-  if(state.day!==null)addTag('🎨',(isTh()?'สีมงคล: ':'Lucky: ')+DAY_COLORS[state.day][LANG]);
+  if(state.day!==null)addTag('🎀',(isTh()?'สีมงคล: ':'Lucky: ')+DAY_COLORS[state.day][LANG]);
   if(state.season)addTag('🎨',SEASONS[state.season][LANG]);
   if(state.angel)addTag(state.angel.emoji,state.angel.name);
   if(!tagBox.children.length)addTag('✨',t.cast_empty);
 
   const pal=getPalette();
-  const ps=document.getElementById('paletteShow');ps.innerHTML='';
-  pal.forEach(col=>{const s=document.createElement('div');s.className='sw';s.style.background=col;ps.appendChild(s);});
+  // recommended + avoid colours
+  const dots=(arr,box)=>{const el=document.getElementById(box);el.innerHTML='';arr.forEach(col=>{const s=document.createElement('div');s.className='sw';s.style.background=col;el.appendChild(s);});};
+  let rec, bad=null;
+  if(state.season&&SEASON_COLORS[state.season]){rec=SEASON_COLORS[state.season].best;bad=SEASON_COLORS[state.season].bad;}
+  else{ const base=pal.slice(); while(base.length<8){base.push(pal[base.length%pal.length]);} rec=base.slice(0,Math.max(8,pal.length)); }
+  dots(rec,'recColors');
+  const avoidHead=document.getElementById('avoidHead'),avoidBox=document.getElementById('avoidColors'),avoidNote=document.getElementById('avoidNote');
+  if(bad){dots(bad,'avoidColors');avoidHead.style.display='';avoidBox.style.display='';avoidNote.textContent=SEASONS[state.season].avoid[LANG];avoidNote.style.display='';}
+  else{document.getElementById('avoidColors').innerHTML='';avoidHead.style.display='none';avoidBox.style.display='none';avoidNote.textContent=t.avoid_need;avoidNote.style.display='';}
 
+  // big Pinterest board button
   const q=buildPinQuery();
-  const pin=document.getElementById('inspoPin');pin.href='https://www.pinterest.com/search/pins/?q='+q;pin.textContent='📌 '+t.view_board;
-  document.getElementById('inspoMoreBtn').textContent=t.inspo_more;
-  document.getElementById('inspoCap').textContent=t.inspo_cap;
-  loadInspoImage();
+  const board=document.getElementById('boardBtn');
+  board.href='https://www.pinterest.com/search/pins/?q='+q;
+  board.textContent='📌 '+t.view_board;
 
   const grid=document.getElementById('looksGrid');grid.innerHTML='';
   const figSet=FIGURES[state.gender]||FIGURES.any;
@@ -970,7 +1039,7 @@ function renderAll(){
   buildChips(GOALS,'goalChips','goal');
   buildChips(STYLES,'styleChips','style');
   buildVibeChips();
-  buildSelects();updateLuck();renderSeasonSwatches();rollAngel(false);
+  buildSelects();updateLuck();renderSeasonSwatches();if(state.angel)renderAngel();else rollAngel();
 }
 
 /* ============ INIT ============ */
